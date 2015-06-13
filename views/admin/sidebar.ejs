@@ -1,0 +1,25 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a href="/admin">
+                Admin
+            </a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'index') ? 'active' : 'item' %>">
+            <a href="/admin">Manage Admins</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'config') ? 'active' : 'item' %>">
+            <a href="/admin/config">App configuration</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'users') ? 'active' : 'item' %>">
+            <a href="/admin/users">Manage Users</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'diseases') ? 'active' : 'item' %>">
+            <a href="/admin/diseases">Manage Diseases</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'surveys') ? 'active' : 'item' %>">
+            <a href="/admin/surveys">Query Surveys</a>
+        </li>
+    </ul>
+</div><!-- /#sidebar-wrapper -->
