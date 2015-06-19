@@ -10,10 +10,11 @@ module.exports = {
     attributes: {
         name: {type: 'string'},
         role: {type: 'String'},
-        email: {type: 'email'},
+        email: {type: 'email', unique:true},
         password: {type: 'string'},
         toJSON: function () {
-            var obj = this.toObject();
+            console.log(this);
+            var obj = this;
             delete obj.password;
             delete obj.createdAt;
             delete obj.updatedAt;
@@ -37,6 +38,7 @@ module.exports = {
             delete attr.password;
             next();
         } else {
+            console.log("generating new password salt...");
             bcrypt.genSalt(10, function (err, salt) {
                 if (err) {
                     next(err);

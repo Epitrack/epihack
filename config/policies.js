@@ -19,8 +19,21 @@
 
 module.exports.policies = {
 
-  /***************************************************************************
-  *                                                                          *
+    '*': 'flash',
+    AdminController :{
+        '*' : ['sessionAuth','flash'],
+        'login':['flash'],
+        'processLogin':['flash']
+    },
+    'AppController:': {
+        '*':['sessionAuth','flash']
+    },
+    DocsController:{
+        '*':true
+    }
+
+    /***************************************************************************
+     *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
   * access)                                                                  *
   *                                                                          *

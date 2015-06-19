@@ -29,7 +29,7 @@
                         <a href="docs">API Documentation</a>
                     </li>
                     <% if(session.authenticated){ %>
-                    <li>
+                    <li class="<%= Helper.isCurrentPage(req, 'admin', null) ? 'active' : 'item' %>">
                         <a href="/admin">Dashboard</a>
                     </li>
                     <% } else { %>

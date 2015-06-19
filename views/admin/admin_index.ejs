@@ -1,10 +1,155 @@
-<div class="container" style="margin-top: 60px">
+<div class="container"
+     style="margin-top: 60px">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <%- partial('sidebar.ejs')%>
+        <div class="sidebar">
+          <%- partial('sidebar.ejs') %>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Manage Admins</h1>
+        <div style="position:absolute;left: 300px;right: 50px;">
+            <h1 class="page-header">Manage Admins</h1>
+            <% if (users.length > 0) { %>
+            <div class="row">
+                <div class="panel panel-primary filterable">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Users</h1>
+                        <div class="pull-right">
+                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr class="filters">
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="#"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Name"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Role"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Email"
+                                           disabled></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i = 0; i < users.length; i++) { %>
+                            <tr>
+                                <td><%= users[i].id %></td>
+                                <td><%= users[i].name %></td>
+                                <td><%= users[i].role %></td>
+                                <td><%= users[i].email %></td>
+                                <td style="max-width: 110px">
+                                    <a href="admin/edit/<%= users[i].id %>"
+                                       class="btn btn-info btn-xs">Edit</a>
+                                    <a href="admin/delete/<%= users[i].id %>"
+                                       class="btn btn-warning btn-xs">Delete</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="row">
+                <div class="alert alert-info"
+                     role="alert"><strong>Data is empty.</strong> Add some users below</div>
+            </div>
+            <% } %>
+            <% if (flash && flash.status) { %>
+            <div class="row">
+                <div class="alert alert-info alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
+            </div>
+            <% } %>
+            <% if (flash && flash.error) { %>
+            <div class="row">
+                <div class="alert alert-warning alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong> <%= flash.message %>
+                </div>
+            </div>
+            <% } %>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Add Administrator</h1>
+                    </div>
+                    <div class="panel-body">
+                        <form action="/admin/create"
+                              method="post">
+                            <input type="hidden"
+                                   name="client"
+                                   value="dashboard">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="admin_name">Name</label>
+                                        <input type="text"
+                                               name="name"
+                                               class="form-control"
+                                               id="admin_name"
+                                               placeholder="User Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="admin_role">Role</label>
+                                        <input type="text"
+                                               name="role"
+                                               class="form-control"
+                                               id="admin_role"
+                                               placeholder="Role">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="admin_email">Email</label>
+                                        <input type="email"
+                                               name="email"
+                                               class="form-control"
+                                               id="admin_email"
+                                               placeholder="User Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="admin_password">Password</label>
+                                        <input type="password"
+                                               name="password"
+                                               class="form-control"
+                                               id="admin_password"
+                                               placeholder="User Password">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit"
+                                                class="btn btn-success btn-lg btn-block">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

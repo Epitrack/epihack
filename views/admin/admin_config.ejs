@@ -1,10 +1,266 @@
-<div class="container" style="margin-top: 60px">
+<div class="container"
+     style="margin-top: 60px">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <%- partial('sidebar.ejs')%>
+            <%- partial('sidebar.ejs') %>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">App Configuration</h1>
+        <div style="position:absolute;left: 300px;right: 50px;">
+            <h1 class="page-header">Manage Configurations</h1>
+            <blockquote>
+                <p>The platform supports multiple app configurations. Each app creates a separate environment for users and surveys. This data is sandboxed for displaying map results, but can be combined for research purposes.</p>
+                <footer>For more information on app configurations, check out the <a href="docs/config">docs</a>.</footer>
+            </blockquote>
+            <% if (configs.length > 0) { %>
+            <div class="row">
+                <div class="panel panel-primary filterable">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Available Configurations</h1>
+                        <div class="pull-right">
+                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr class="filters">
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="#"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Name"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="URL"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Default Location"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Client Token"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Locale"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Default"
+                                           disabled></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i = 0; i < configs.length; i++) { %>
+                            <tr>
+                                <td><%= configs[i].id %></td>
+                                <td><%= configs[i].name %></td>
+                                <td><a href="<%= configs[i].url %>"><%= configs[i].url %></a></td>
+                                <td><%= configs[i].location %></td>
+                                <td><%= configs[i].token %></td>
+                                <td><%= configs[i].language %></td>
+                                <td class="<%= configs[i].default ? 'text-success' : 'text-default' %>"
+                                    width="80px">
+                                    <i class="glyphicon <%= configs[i].default ? 'glyphicon-star text-success' : 'glyphicon-star-empty text-default' %>"
+                                       aria-hidden="true"></i>
+                                    <span><%= configs[i].default ? 'YES' : 'NO' %></span>
+                                </td>
+                                <td width="18%">
+                                    <a href="app/edit/<%= configs[i].id %>"
+                                       class="btn btn-info btn-xs">Edit</a>
+                                    <a href="app/delete/<%= configs[i].id %>"
+                                       class="btn btn-danger btn-xs">Delete</a>
+                                    <a href="app/default/<%= configs[i].id %>"
+                                       class="btn btn-success btn-xs <%= configs[i].default ? 'disabled' : '' %>">Make Default</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="row">
+                <div class="alert alert-info"
+                     role="alert"><strong>Data is empty.</strong> Add a default configuration below</div>
+            </div>
+            <% } %>
+            <% if (flash && flash.status) { %>
+            <div class="row">
+                <div class="alert alert-info alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
+            </div>
+            <% } %>
+            <% if (flash && flash.error) { %>
+            <div class="row">
+                <div class="alert alert-warning alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning!</strong> <%= flash.message %>
+                </div>
+            </div>
+            <% } %>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Add configuration</h1>
+                    </div>
+                    <div class="panel-body">
+                        <form action="/app/create"
+                              method="post">
+                            <input type="hidden"
+                                   name="client"
+                                   value="dashboard">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="app_name">Name</label>
+                                        <input type="text"
+                                               name="name"
+                                               class="form-control"
+                                               id="app_name"
+                                               placeholder="App Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="app_url">URL</label>
+                                        <input type="text"
+                                               name="url"
+                                               class="form-control"
+                                               id="app_url"
+                                               placeholder="Default URL for the app">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="locale_list">Default Locale</label>
+                                        <select name="language"
+                                                id="locale_list"
+                                                class="form-control dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"><span class="caret"></span></select>
+                                        <p class="help-block">Default language for internationalization</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="app_location">Default Location</label>
+                                        <input type="text"
+                                               name="location"
+                                               class="form-control"
+                                               id="app_location"
+                                               placeholder="Readable Default Location for the app">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="app_latitude">Latitude</label>
+                                        <input type="tel"
+                                               name="latitude"
+                                               class="form-control"
+                                               id="app_latitude"
+                                               placeholder="Latitude for the center of the map">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="app_longitude">Longitude</label>
+                                        <input type="tel"
+                                               name="longitude"
+                                               class="form-control"
+                                               id="app_longitude"
+                                               placeholder="Longitude for the center of the map">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            style="margin-top: 30px"
+                                            id="location_picker"
+                                            data-toggle="modal" data-target="#pickerModal"
+                                            class="btn btn-info btn-sm btn-block">Pick a location</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="app_token">App Token</label>
+                                        <input type="text"
+                                               name="token"
+                                               class="form-control"
+                                               id="app_token"
+                                               placeholder="Security token for API operations">
+                                        <p class="help-block">Client token to protect API operations. All non-public API endpoints must send this token in the header of the request</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            style="margin-top: 30px"
+                                            id="generate_token_hash"
+                                            class="btn btn-info btn-sm btn-block">Generate Hash</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="app_secret">App Secret</label>
+                                        <input type="text"
+                                               name="secret"
+                                               class="form-control"
+                                               id="app_secret"
+                                               placeholder="Security secret used as salt for password encryption">
+                                        <p class="help-block">This secret is used when encrypting new user's passwords</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            style="margin-top: 30px"
+                                            id="generate_secret_hash"
+                                            class="btn btn-info btn-sm btn-block">Generate Hash</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit"
+                                                class="btn btn-success btn-lg btn-block">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="pickerModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pick a location</h4>
+            </div>
+            <div class="modal-body">
+                <div id="map_container" style="width: 560px; height: 400px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

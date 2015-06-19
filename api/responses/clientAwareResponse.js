@@ -3,10 +3,12 @@
  */
 module.exports = function clientAwareResponse (client, view, data){
     var res = this.res;
+    var req = this.req;
     if (client == 'api') {
         return res.json(data);
     } else {
         sails.log.verbose('Returning view: \n',data);
-        return res.view(view, data);
+        req.session.flash = data;
+        res.redirect(view);
     }
 };

@@ -14,32 +14,58 @@ module.exports = {
      * `AdminController.create()`
      */
     create: function (req, res) {
+        var client = req.body.client || 'api';
+        delete req.body.client;
         var admin = req.body;
-
         Admin.create(admin).exec(function createCB(err, b) {
             if (err) {
-                module.exports.msgError = 'Erro ao criar usuário, por favor tente novamente.';
+                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
                 console.log(err);
+                return res.clientAwareResponse(client, '/admin', error);
+            } else {
+                return res.clientAwareResponse(client, '/admin', {error:false, status:true, message:"User Created", user:b});
             }
-            res.redirect('/admin');
         });
     },
 
+    /**
+     * `AdminController.list()`
+     */
+    list:function(req, res) {
+        Admin.find({}).exec(function (err, users) {
+            if (err) return next(err);
+            return res.json({error:false, data:users});
+        });
+    },
 
     /**
      * `AdminController.update()`
      */
     update: function (req, res) {
+        var client = req.body.client || 'api';
+        delete req.body.client;
         var admin = req.body;
         Admin.update({
             id: admin.id
         }, admin).exec(function afterwards(err, upb) {
             if (err) {
-                module.exports.msgError = 'Erro ao atualizar usuário, por favor tente novamente.';
                 console.log(err);
+                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
+                return res.clientAwareResponse(client, '/admin', error);
             }
-            console.log(upb);
-            res.redirect('/admin');
+            return res.clientAwareResponse(client, '/admin', {error:false, status:true, message:"User Updated", user:upb});
+        });
+    },
+
+    edit: function (req, res) {
+        var admin_id = req.param("admin_id");
+        Admin.findOne(admin_id).exec(function (err, user) {
+            if (err) return next(err);
+            res.view('admin/admin_edit', {
+                user: user,
+                error: false,
+                page:'admin_edit'
+            });
         });
     },
 
@@ -52,23 +78,25 @@ module.exports = {
             if (err) return next(err);
             res.view('admin/admin_index', {
                 users: users,
-                error: module.exports.msgError,
+                error: false,
                 page:'admin_index'
             });
-            module.exports.msgError = ''
-        })
+        });
     },
 
     delete: function (req, res) {
-        var params = req.url.split('/');
-        var param = params.pop();
-        var id = param.replace('?id=', '');
-
+        var admin_id = req.param("admin_id");
+        var client = 'dashboard';
         Admin.destroy({
-            id: id
+            id: admin_id
         }).exec(function (err, users) {
-            if (err) module.exports.msgError = 'Erro ao deletar usuário, por favor tente novamente.';
-            res.redirect('/admin/');
+            if (err) {
+                console.log(err);
+                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
+                return res.clientAwareResponse(client, '/admin', error);
+            } else {
+                return res.clientAwareResponse(client, '/admin', {status:true, message:"User Deleted"});
+            }
         });
     },
 
@@ -77,14 +105,21 @@ module.exports = {
      * `AdminController.login()`
      */
     login: function (req, res) {
-        return res.view({error:false});
+        res.view();
     },
 
     /**
      * `AdminController.config()`
      */
     config: function (req, res) {
-        return res.view('admin/admin_config.ejs', {error:false});
+        App.find({}).exec(function (err, configs) {
+            if (err) return next(err);
+            res.view('admin/admin_config', {
+                configs: configs,
+                error: false,
+                page:'admin_config'
+            });
+        });
     },
 
     /**
@@ -115,32 +150,33 @@ module.exports = {
             var client = req.body.client || 'api';
             var error = false;
             if (!email || !password) {
-                error = {error: 'Email and password required'};
+                error = {error:true, message: 'Email and password required'};
                 return res.clientAwareResponse(client, 'admin/login', error);
             }
 
             Admin.findOneByEmail(email, function (err, foundUser) {
                 if (!foundUser) {
-                    error = {error: 'Unrecognized E-mail'};
+                    error = {error: true, message:'Unrecognized E-mail'};
                     return res.clientAwareResponse(client, 'admin/login', error);
                 }
 
                 bcrypt.compare(password, foundUser.password, function (err, valid) {
                     if (err) {
-                        error = {error: 'There was an error processing your request. Try again'};
+                        error = {error: true, message:'There was an error processing your request. Try again'};
                         return res.clientAwareResponse(client, 'admin/login', error);
                     }
 
                     if (!valid) {
-                        var error = {error: 'Access Denied'};
+                        var error = {error: true, message:'Access Denied'};
                         return res.clientAwareResponse(client, 'admin/login', error);
                     }
 
-                    req.session.authenticated = foundUser;
+                    req.session.authenticated = true;
+                    req.session.User = foundUser;
                     if(client == 'api') {
-                        createAndSendToken(foundUser);
+                        createAndSendToken(foundUser, res);
                     } else {
-                        return res.clientAwareResponse(client, '/admin', foundUser);
+                        res.redirect("/admin/");
                     }
                 });
 
