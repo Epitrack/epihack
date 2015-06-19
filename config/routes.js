@@ -45,7 +45,9 @@ module.exports.routes = {
     'POST /app/create': 'AppController.create',
     'GET /app/default/:app_id': 'AppController.default',
     'GET /app/edit/:app_id': 'AppController.edit',
-    'GET /app/delete/:app_id': 'AppController.delete'
+    'GET /app/delete/:app_id': 'AppController.delete',
+
+    'GET /diseases/edit/:disease_id': 'DiseasesController.edit'
 
 
     /***************************************************************************

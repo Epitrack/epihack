@@ -1,0 +1,66 @@
+<div class="container" style="margin-top: 60px">
+    <div class="row">
+        <div class="sidebar">
+          <%- partial('sidebar.ejs')%>
+        </div>
+        <div style="position:absolute;left: 300px;right: 50px;">
+            <div class="row">
+                <h1 class="page-header">Edit Disease</h1>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Disease Info</h1>
+                    </div>
+                    <div class="panel-body">
+                        <form action="diseases/update" method="POST">
+                            <input type="hidden"
+                                   name="client"
+                                   value="dashboard">
+                            <input type="hidden"
+                                   name="id"
+                                   value="<%=disease.id%>">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="disease_name">Name</label>
+                                        <input type="text" name="name" class="form-control" id="disease_name" placeholder="Disease Name" value="<%=disease.name%>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="disease_code">Role</label>
+                                        <input type="text" name="code" class="form-control" id="disease_code" placeholder="Disease Code" value="<%=disease.code%>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Disease's Symptoms</h1>
+                    </div>
+                    <div class="panel-body">
+                        <% if (disease.symptoms.length > 0) { %>
+                        <%}else {%>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-info"
+                                     role="alert"><strong>No Symptoms yet.</strong> Add some symptoms to the disease</div>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

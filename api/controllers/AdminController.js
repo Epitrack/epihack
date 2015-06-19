@@ -133,7 +133,14 @@ module.exports = {
      * `AdminController.diseases()`
      */
     diseases: function (req, res) {
-        return res.view('admin/admin_diseases.ejs', {error:false});
+        Disease.find({}).exec(function (err, diseases) {
+            if (err) return next(err);
+            res.view('admin/admin_diseases', {
+                diseases: diseases,
+                error: false,
+                page:'admin_diseases'
+            });
+        });
     },
 
     /**

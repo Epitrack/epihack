@@ -7,8 +7,9 @@
 
 module.exports = {
     attributes: {
-        name: {type: 'string'},
-        symptoms: {type: 'array'}
+        name: {type: 'string', required:true},
+        code:{type:'string', unique:true},
+        symptoms: {type: 'array', required:false, defaultsTo:[]}
     }
 };
 

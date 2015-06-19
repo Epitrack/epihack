@@ -28,6 +28,9 @@ module.exports.policies = {
     'AppController:': {
         '*':['sessionAuth','flash']
     },
+    'DiseasesController:': {
+        '*':['sessionAuth','flash']
+    },
     DocsController:{
         '*':true
     }
