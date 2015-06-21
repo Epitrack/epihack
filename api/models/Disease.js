@@ -6,10 +6,15 @@
  */
 
 module.exports = {
+    identity:"Disease",
     attributes: {
-        name: {type: 'string', required:true},
-        code:{type:'string', unique:true},
-        symptoms: {type: 'array', required:false, defaultsTo:[]}
+        name: {type: 'string', required: true},
+        code: {type: 'string', unique: true},
+        symptoms: {
+            collection: 'Symptom',
+            via: 'owners',
+            dominant: true
+        }
     }
 };
 

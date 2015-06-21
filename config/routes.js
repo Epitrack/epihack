@@ -39,6 +39,10 @@ module.exports.routes = {
     'GET /admin/login': 'AdminController.login',
     'GET /admin/edit/:admin_id': 'AdminController.edit',
     'GET /admin/delete/:admin_id': 'AdminController.delete',
+
+    'GET /admin/diseases': 'DiseasesController.index',
+    'GET /admin/symptoms': 'SymptomsController.index',
+
     'POST /admin/login': 'AdminController.processLogin',
     'POST /admin/create': 'AdminController.create',
 
@@ -46,8 +50,19 @@ module.exports.routes = {
     'GET /app/default/:app_id': 'AppController.default',
     'GET /app/edit/:app_id': 'AppController.edit',
     'GET /app/delete/:app_id': 'AppController.delete',
+    'GET /app/delete': 'AppController.delete',
+    'GET /app/get': 'AppController.read',
+    'GET /app/list': 'AppController.list',
+    'GET /app/:app_id': 'AppController.read',
 
-    'GET /diseases/edit/:disease_id': 'DiseasesController.edit'
+    'GET /diseases/edit/:disease_id': 'DiseasesController.edit',
+
+    'GET /diseases/delete/:disease_id': 'DiseasesController.delete',
+    'POST /symptoms/create': 'SymptomsController.create',
+    'GET /symptoms/get': 'SymptomsController.read',
+    'GET /symptom/:symptom_id': 'SymptomsController.read',
+    'GET /symptoms': 'SymptomsController.list',
+    'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete'
 
 
     /***************************************************************************

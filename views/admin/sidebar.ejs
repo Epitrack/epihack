@@ -15,8 +15,14 @@
         <li class="<%= Helper.isCurrentPage(req, 'admin', 'users') ? 'active' : 'item' %>">
             <a href="/admin/users">Manage Users</a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'admin', 'diseases') ? 'active' : 'item' %>">
+        <li class="<%= Helper.isCurrentPage(req, 'diseases', null) ? 'active' : 'item' %>">
             <a href="/admin/diseases">Manage Diseases</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'symptoms', null) ? 'active' : 'item' %>">
+            <a href="/admin/symptoms">Manage Symptoms</a>
+        </li>
+        <li class="<%= Helper.isCurrentPage(req, 'admin', 'locales') ? 'active' : 'item' %>">
+            <a href="/admin/locales">Manage Internationalization</a>
         </li>
         <li class="<%= Helper.isCurrentPage(req, 'admin', 'surveys') ? 'active' : 'item' %>">
             <a href="/admin/surveys">Query Surveys</a>

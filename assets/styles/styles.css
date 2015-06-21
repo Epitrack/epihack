@@ -32,3 +32,24 @@
 .filterable .filters input[disabled]:-ms-input-placeholder {
     color: #333;
 }
+body.dragging, body.dragging * {
+    cursor: move !important;
+}
+
+.dragged {
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
+}
+ol.vertical {
+    margin: 0;
+    padding: 0;
+}
+ol.vertical li.placeholder {
+    position: relative;
+    /** More li styles **/
+}
+ol.vertical li.placeholder:before {
+    position: absolute;
+    /** Define arrowhead **/
+}

@@ -6,8 +6,19 @@
  */
 
 module.exports = {
-
-
+    /**
+     * `DiseasesController.index()`
+     */
+    index: function (req, res) {
+        Disease.find({}).exec(function (err, diseases) {
+            if (err) return next(err);
+            res.view('admin/admin_diseases', {
+                diseases: diseases,
+                error: false,
+                page:'admin_diseases'
+            });
+        });
+    },
     /**
      * `DiseasesController.create()`
      */
@@ -30,8 +41,6 @@ module.exports = {
             }
         });
     },
-
-
     /**
      * `DiseasesController.update()`
      */
@@ -51,52 +60,65 @@ module.exports = {
                 error: false,
                 status: true,
                 message: "Disease Updated",
-                user: upd
+                disease: upd
             });
         });
     },
-
-
-    /**
-     * `DiseasesController.delete()`
-     */
-    delete: function (req, res) {
-        return res.json({
-            todo: 'delete() is not implemented yet!'
-        });
-    },
-
-
     /**
      * `DiseasesController.list()`
      */
     list: function (req, res) {
-        Disease.find({}).exec(function (err, diseases) {
+        Disease.find({}).populateAll().exec(function (err, diseases) {
             if (err) return next(err);
             return res.json({error: false, data: diseases});
         });
     },
-
     get: function (req, res) {
-        Disease.find({code:req.param('code')}).exec(function (err, diseases) {
+        var params = {};
+        if(req.param('code') != null) {
+            params = {code:req.param('code')};
+        } else if(req.param('disease_id') != null) {
+            params = {id:req.param('disease_id')};
+        }
+        Disease.find(params).populateAll().exec(function (err, diseases) {
             if (err) return next(err);
             return res.json({error: false, data: diseases});
         });
     },
-
-
     /**
      * `DiseasesController.edit()`
      */
     edit: function (req, res) {
         var d_id = req.param("disease_id");
-        Disease.findOne(d_id).exec(function (err, disease) {
-            if (err) return next(err);
-            res.view('admin/disease_edit', {
-                disease: disease,
-                error: false,
-                page: 'disease_edit'
+        Symptom.find({}).exec(function(err, symptoms){
+            if (err) return res.serverError(err);
+            Disease.findOne(d_id).populateAll().exec(function (err, disease) {
+                if (err) res.serverError(err);
+                res.view('admin/disease_edit', {
+                    disease: disease,
+                    symptoms:symptoms,
+                    error: false,
+                    page: 'disease_edit'
+                });
             });
+        });
+    },
+    /**
+     * `DiseasesController.delete()`
+     */
+    delete: function (req, res) {
+        var disease_id = req.param("disease_id");
+        var client = req.param("client") || 'dashboard';
+        Disease.destroy({
+            id: disease_id
+        }).exec(function (err) {
+            if (err) {
+                console.log(err);
+                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
+                return res.clientAwareResponse(client, '/admin/diseases', error);
+            } else {
+                return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Disease Deleted"});
+            }
         });
     }
 };

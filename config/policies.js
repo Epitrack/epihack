@@ -21,15 +21,18 @@ module.exports.policies = {
 
     '*': 'flash',
     AdminController :{
-        '*' : ['sessionAuth','flash'],
+        '*' : ['flash','sessionAuth'],
         'login':['flash'],
         'processLogin':['flash']
     },
-    'AppController:': {
-        '*':['sessionAuth','flash']
+    AppController: {
+        '*':['flash','sessionAuth']
     },
-    'DiseasesController:': {
-        '*':['sessionAuth','flash']
+    DiseasesController: {
+        '*':['flash','sessionAuth']
+    },
+    SymptomsController: {
+        '*':['flash','sessionAuth']
     },
     DocsController:{
         '*':true

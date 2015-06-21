@@ -16,6 +16,9 @@ $(document).ready(function () {
         }
     });
 
+    $("ul.symptoms_list").sortable({group:'symptoms'});
+    $("ul.disease_symptoms").sortable({group:'symptoms'});
+
     $.each(locales, function (key, value) {
         $('#locale_list')
             .append($("<option></option>")
@@ -27,6 +30,7 @@ $(document).ready(function () {
         var v = $('#app_language').val();
         $("#locale_list").val(v).attr("selected", "selected");
     }
+
     $('#pickerModal').on('shown.bs.modal', function (e) {
         $('#map_container').locationpicker({
             zoom: 2,

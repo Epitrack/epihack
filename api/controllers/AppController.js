@@ -28,6 +28,30 @@ module.exports = {
             }
         });
     },
+    /**
+     * `AppController.read()`
+     */
+    read: function (req, res) {
+        var params = {};
+        if(req.param('token') != null) {
+            params = {token:req.param('token')};
+        } else if(req.param('app_id') != null) {
+            params = {id:req.param('app_id')};
+        }
+        App.find(params).exec(function (err, apps) {
+            if (err) return next(err);
+            return res.json({error: false, data: apps});
+        });
+    },
+    /**
+     * `AppController.list()`
+     */
+    list: function (req, res) {
+        App.find({}).exec(function (err, apps) {
+            if (err) return next(err);
+            return res.json({error: false, data: apps});
+        });
+    },
     edit: function (req, res) {
         var app_id = req.param("app_id");
         App.findOne(app_id).exec(function (err, app) {
@@ -74,7 +98,7 @@ module.exports = {
     },
     delete: function (req, res) {
         var app_id = req.param("app_id");
-        var client = 'dashboard';
+        var client = req.param('client') || 'api';
         App.destroy({
             id: app_id
         }).exec(function (err) {

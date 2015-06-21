@@ -6,9 +6,15 @@
  */
 
 module.exports = {
+    identity:"Symptom",
     attributes: {
         name: {type: 'string'},
-        isRequired: {type: 'boolean'},
-        priority: {type: 'integer'}
+        code: {type: 'string', unique:true},
+        is_required: {type: 'boolean'},
+        priority: {type: 'integer'},
+        owners:{
+            collection:'Disease',
+            via:'symptoms'
+        }
     }
 };

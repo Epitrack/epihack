@@ -128,26 +128,18 @@ module.exports = {
     users: function (req, res) {
         return res.view('admin/admin_users.ejs', {error:false});
     },
-
-    /**
-     * `AdminController.diseases()`
-     */
-    diseases: function (req, res) {
-        Disease.find({}).exec(function (err, diseases) {
-            if (err) return next(err);
-            res.view('admin/admin_diseases', {
-                diseases: diseases,
-                error: false,
-                page:'admin_diseases'
-            });
-        });
-    },
-
     /**
      * `AdminController.surveys()`
      */
     surveys: function (req, res) {
         return res.view('admin/admin_surveys.ejs', {error:false});
+    },
+
+    /**
+     * `AdminController.locales()`
+     */
+    locales: function (req, res) {
+        return res.view('admin/admin_locales.ejs', {error:false});
     },
 
     processLogin: function (req, res) {

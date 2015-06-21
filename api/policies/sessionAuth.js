@@ -7,15 +7,35 @@
  * @docs        :: http://sailsjs.org/#!/documentation/concepts/Policies
  *
  */
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
 
-  // User is allowed, proceed to the next policy, 
-  // or if this is the last policy, the controller
-  if (req.session.authenticated) {
-    return next();
-  }
-
-  // User is not allowed
-  // (default res.forbidden() behavior can be overridden in `config/403.js`)
-  return res.forbidden('You are not permitted to perform this action.');
+    // User is allowed, proceed to the next policy,
+    // or if this is the last policy, the controller
+    if (req.session.authenticated) {
+        return next();
+    } else {
+        if (req.header('app_token') != null) {
+            var app_token = req.header('app_token');
+            App.findOne({token: app_token}, function (err, app) {
+                if (err) {
+                    //console.log('bad request');
+                    return res.badRequest(err);
+                } else {
+                    console.log("found app",app);
+                    if (app != undefined && app.token == app_token) {
+                        //console.log('token ok');
+                        return next();
+                    } else {
+                        // User is not allowed
+                        //console.log('token not ok');
+                        return res.forbidden('Invalid App Token');
+                    }
+                }
+            });
+        } else {
+            // User is not allowed
+            //console.log('User is not allowed');
+            return res.forbidden('You are not permitted to perform this action.');
+        }
+    }
 };
