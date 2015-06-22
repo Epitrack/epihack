@@ -17,7 +17,7 @@ module.exports = {
             host: 'localhost',
             port: 27017,
             user: 'admin',
-            password: 'aXr38iNVTg',
+            password: 'hiDOk6FXpG',
             database: 'epihack'
         }
     },
