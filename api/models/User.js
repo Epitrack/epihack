@@ -9,6 +9,7 @@ var bcrypt = require('bcrypt-nodejs');
 module.exports = {
     attributes: {
         email: {type: 'email', unique:true, required:true},
+        app_token:{type:'string', required:true},
         password: {type: 'string', required:true},
         nick: {type: 'string', required:false},
         dob: {type: 'string', required:true},

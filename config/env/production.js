@@ -14,10 +14,10 @@ module.exports = {
     connections:{
         'mongo_prod': {
             adapter: 'sails-mongo',
-            host: '127.0.0.1',
+            host: 'mongodb53606-epihack.jelasticlw.com.br',
             port: 27017,
-            user: 'admin',
-            password: 'hiDOk6FXpG',
+            user: 'epihack',
+            password: 'epihack',
             database: 'epihack'
         }
     },
@@ -27,7 +27,7 @@ module.exports = {
    ***************************************************************************/
    models: {
      connection: 'mongo_prod'
-   }
+   },
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
@@ -35,7 +35,7 @@ module.exports = {
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
-  // log: {
-  //   level: "silent"
-  // }
+   log: {
+     level: "verbose"
+   }
 };
