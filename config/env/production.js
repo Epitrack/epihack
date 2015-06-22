@@ -14,7 +14,7 @@ module.exports = {
     connections:{
         'mongo_prod': {
             adapter: 'sails-mongo',
-            host: 'localhost',
+            host: '127.0.0.1',
             port: 27017,
             user: 'admin',
             password: 'hiDOk6FXpG',
