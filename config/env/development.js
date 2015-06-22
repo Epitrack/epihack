@@ -11,14 +11,21 @@
  */
 
 module.exports = {
-
-  /***************************************************************************
+    connections:{
+        'mongo_local': {
+            adapter: 'sails-mongo',
+            host: 'localhost',
+            port: 27017,
+            user: '',
+            password: '',
+            database: 'epihack'
+        }
+    },
+    /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
-
+   models: {
+     connection: 'mongo_local'
+   }
 };

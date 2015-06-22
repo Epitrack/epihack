@@ -8,8 +8,6 @@ var createAndSendToken = require('../services/createSendToken.js');
  */
 
 module.exports = {
-
-
     /**
      * `AdminController.create()`
      */
@@ -27,7 +25,6 @@ module.exports = {
             }
         });
     },
-
     /**
      * `AdminController.list()`
      */
@@ -37,7 +34,6 @@ module.exports = {
             return res.json({error:false, data:users});
         });
     },
-
     /**
      * `AdminController.update()`
      */
@@ -80,7 +76,6 @@ module.exports = {
             });
         });
     },
-
     delete: function (req, res) {
         var admin_id = req.param("admin_id");
         var client = 'dashboard';
@@ -96,15 +91,12 @@ module.exports = {
             }
         });
     },
-
-
     /**
      * `AdminController.login()`
      */
     login: function (req, res) {
         res.view('admin/login', {page:'admin_login'});
     },
-
     /**
      * `AdminController.config()`
      */
@@ -124,14 +116,12 @@ module.exports = {
     surveys: function (req, res) {
         return res.view('admin/admin_surveys.ejs', {error:false, page:'admin_surveys'});
     },
-
     /**
      * `AdminController.locales()`
      */
     locales: function (req, res) {
         return res.view('admin/admin_locales.ejs', {error:false, page:"admin_locales"});
     },
-
     processLogin: function (req, res) {
         if (req.method == 'POST') {
             var email = req.body.email;

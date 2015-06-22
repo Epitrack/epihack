@@ -19,22 +19,6 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.connections.html
  */
 module.exports.connections = {
-    'mongo_local': {
-        adapter: 'sails-mongo',
-        host: 'localhost',
-        port: 27017,
-        user: '',
-        password: '',
-        database: 'epihack'
-    }/*,
-    'mongo_prod': {
-        adapter: 'sails-mongo',
-        host: 'NO_PUBLIC_IP',
-        port: 27017,
-        user: 'epihack_MONGO',
-        password: 'NO_PASSWORD',
-        database: 'epihack'
-    }*/
     /***************************************************************************
      *                                                                          *
      * Local disk storage for DEVELOPMENT ONLY                                  *

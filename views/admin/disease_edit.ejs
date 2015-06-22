@@ -72,8 +72,9 @@
                                     <ul class="symptoms_list vertical list-group"
                                         style="padding:5px;min-height: 50px;background: #eeeeee">
                                         <% for (var i = 0;i < symptoms.length;i++){ %>
+                                        <% if(disease.symptoms.length > 0) {%>
                                         <% for (var j = 0;j < disease.symptoms.length;j++){ %>
-                                        <% if (disease.symptoms[j].code != symptoms[i].code) { %>
+                                        <% if (disease.symptoms[j].code != symptoms[i].code || disease.symptoms.length == 0) { %>
                                         <li class="list-group-item"
                                             data-id="<%= symptoms[i].id %>">
                                             <span class="badge"
@@ -84,7 +85,18 @@
                                             <% } %>
                                             <span title="Symptom code: <%= symptoms[i].code %>"><%= symptoms[i].name %></span>
                                         </li>
-                                        <% }}} %>
+                                        <% }}}else{ %>
+                                        <li class="list-group-item"
+                                            data-id="<%= symptoms[i].id %>">
+                                            <span class="badge"
+                                                  style="background: #2F6FAD;font-weight: normal"
+                                                  title="Symptom priority"><i class="glyphicon glyphicon-signal"></i>: <%= symptoms[i].priority %></span>
+                                            <% if(symptoms[i].is_required == true) { %>
+                                            <span class="badge" style="background: #f39c12" title="This Symptom is required"><i class='glyphicon glyphicon-exclamation-sign'></i></span>
+                                            <% } %>
+                                            <span title="Symptom code: <%= symptoms[i].code %>"><%= symptoms[i].name %></span>
+                                        </li>
+                                        <%}}%>
                                     </ul>
                                 </div>
                                 <div class="col-md-8">

@@ -11,28 +11,31 @@
  */
 
 module.exports = {
-
+    connections:{
+        'mongo_prod': {
+            adapter: 'sails-mongo',
+            host: 'NO_PUBLIC_IP',
+            port: 27017,
+            user: 'admin',
+            password: 'aXr38iNVTg',
+            database: 'epihack'
+        }
+    },
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-
    models: {
-     connection: 'mongo_local'
+     connection: 'mongo_prod'
    }
-
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
-
   // port: 80,
-
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
-
   // log: {
   //   level: "silent"
   // }
-
 };
