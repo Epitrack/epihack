@@ -15,6 +15,14 @@ module.exports = {
         gender: {type: 'string', enum: ['M', 'F'], required:true},
         tw: {type: 'string', required:false},
         fb: {type: 'string', required:false},
+        surveys: {
+            collection: 'Survey',
+            via: 'user'
+        },
+        household_members: {
+            collection: 'HouseholdMember',
+            via: 'user'
+        },
         toJSON: function () {
             var obj = this.toObject();
             delete obj.password;

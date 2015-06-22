@@ -28,7 +28,7 @@ module.exports = function (req, res, next) {
                     } else {
                         // User is not allowed
                         //console.log('token not ok');
-                        return res.forbidden('Invalid App Token');
+                        return res.forbidden('Invalid App Token : sessionAuth');
                     }
                 }
             });
@@ -36,9 +36,9 @@ module.exports = function (req, res, next) {
             // User is not allowed
             //console.log('User is not allowed');
             if(req.xhr) {
-                return res.forbidden('You are not permitted to perform this action.');
+                return res.forbidden('You are not permitted to perform this action. : sessionAuth');
             } else {
-                var error = {error: true, message:'Access Denied'};
+                var error = {error: true, message: 'Access Denied : sessionAuth'};
                 return res.clientAwareResponse('dashboard', 'admin/login', error);
             }
         }

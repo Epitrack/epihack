@@ -40,6 +40,9 @@ module.exports.policies = {
     },
     DocsController:{
         '*':true
+    },
+    SurveyController: {
+        '*': ['flash', 'hasValidAppToken']
     }
 
     /***************************************************************************

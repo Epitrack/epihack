@@ -72,7 +72,13 @@ module.exports.routes = {
     'GET /user/get': 'UserController.read',
     'GET /user/:user_id': 'UserController.read',
     'GET /user/delete/:user_id': 'UserController.delete',
-    'GET /user/edit/:user_id': 'UserController.edit'
+    'GET /user/edit/:user_id': 'UserController.edit',
+
+    'POST /survey/create': 'SurveyController.create',
+    'GET /survey/:survey_id': 'SurveyController.read',
+    'GET /surveys/s': 'SurveyController.getBySymptom',
+    'GET /surveys/d': 'SurveyController.getByDisease',
+    'GET /user/surveys/:user_id': 'SurveyController.read'
 
 
     /***************************************************************************

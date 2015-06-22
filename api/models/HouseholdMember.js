@@ -1,17 +1,19 @@
 /**
-* HouseholdMember.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * HouseholdMember.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
-
-  attributes: {
-    user : { model: 'User' },
-    nick : { type: 'string' },
-    gender : { type: 'string' },
-    dob : { type: 'date' }
-  }
+    attributes: {
+        user: {model: 'User'},
+        nick: {type: 'string'},
+        gender: {type: 'string'},
+        dob: {type: 'date'},
+        surveys: {
+            collection: 'Survey',
+            via: 'household'
+        }
+    }
 };
-
