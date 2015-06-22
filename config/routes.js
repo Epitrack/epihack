@@ -42,6 +42,7 @@ module.exports.routes = {
 
     'GET /admin/diseases': 'DiseasesController.index',
     'GET /admin/symptoms': 'SymptomsController.index',
+    'GET /admin/users': 'UserController.index',
 
     'POST /admin/login': 'AdminController.processLogin',
     'POST /admin/create': 'AdminController.create',
@@ -55,14 +56,23 @@ module.exports.routes = {
     'GET /app/list': 'AppController.list',
     'GET /app/:app_id': 'AppController.read',
 
+    'POST /diseases/symptoms': 'DiseasesController.symptoms',
+    'POST /diseases/symptoms/add': 'DiseasesController.symptoms_add',
+    'POST /diseases/symptoms/remove': 'DiseasesController.symptoms_remove',
     'GET /diseases/edit/:disease_id': 'DiseasesController.edit',
-
     'GET /diseases/delete/:disease_id': 'DiseasesController.delete',
+
     'POST /symptoms/create': 'SymptomsController.create',
     'GET /symptoms/get': 'SymptomsController.read',
     'GET /symptom/:symptom_id': 'SymptomsController.read',
     'GET /symptoms': 'SymptomsController.list',
-    'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete'
+    'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete',
+
+    'GET /users': 'UserController.list',
+    'GET /user/get': 'UserController.read',
+    'GET /user/:user_id': 'UserController.read',
+    'GET /user/delete/:user_id': 'UserController.delete',
+    'GET /user/edit/:user_id': 'UserController.edit'
 
 
     /***************************************************************************

@@ -31,6 +31,10 @@ module.exports.policies = {
     DiseasesController: {
         '*':['flash','sessionAuth']
     },
+    UserController: {
+        '*':['flash','sessionAuth'],
+        'login':['flash']
+    },
     SymptomsController: {
         '*':['flash','sessionAuth']
     },

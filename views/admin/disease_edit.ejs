@@ -1,12 +1,13 @@
-<div class="container"
+<div
      style="margin-top: 60px">
     <div class="row">
-        <div class="sidebar">
+        <div class="col-md-2 sidebar">
           <%- partial('sidebar.ejs') %>
         </div>
-        <div style="position:absolute;left: 300px;right: 50px;">
-            <div class="row">
+        <div class="col-md-10">
+            <div style="margin-left: 50px;margin-right: 50px">
                 <h1 class="page-header">Edit Disease</h1>
+                <div class="row">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h1 class="panel-title">Disease Info</h1>
@@ -64,6 +65,7 @@
                         <h1 class="panel-title">Disease's Symptoms</h1>
                     </div>
                     <div class="panel-body">
+                        <p class="help-block">Drag a symptom from the existing list to the <%=disease.name%>'s Symptoms list.</p>
                         <div class="row">
                             <div class="col-md-4"
                                  style="border-right: 1px solid;">
@@ -121,7 +123,7 @@
                             <i class="glyphicon glyphicon-list-alt"></i>
                             Manage Symptoms
                         </a>
-                        <button class="btn btn-success btn-lg">
+                        <button class="btn btn-success btn-lg" id="save_disease_symptoms">
                             <i class="glyphicon glyphicon-ok"></i>
                             Save
                         </button>
@@ -129,5 +131,6 @@
                 </div>
             </div>
         </div>
+            </div>
     </div>
 </div>

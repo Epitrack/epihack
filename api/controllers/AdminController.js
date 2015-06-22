@@ -56,7 +56,6 @@ module.exports = {
             return res.clientAwareResponse(client, '/admin', {error:false, status:true, message:"User Updated", user:upb});
         });
     },
-
     edit: function (req, res) {
         var admin_id = req.param("admin_id");
         Admin.findOne(admin_id).exec(function (err, user) {
@@ -68,8 +67,6 @@ module.exports = {
             });
         });
     },
-
-
     /**
      * `AdminController.index()`
      */
@@ -105,7 +102,7 @@ module.exports = {
      * `AdminController.login()`
      */
     login: function (req, res) {
-        res.view();
+        res.view('admin/login', {page:'admin_login'});
     },
 
     /**
@@ -121,25 +118,18 @@ module.exports = {
             });
         });
     },
-
-    /**
-     * `AdminController.users()`
-     */
-    users: function (req, res) {
-        return res.view('admin/admin_users.ejs', {error:false});
-    },
     /**
      * `AdminController.surveys()`
      */
     surveys: function (req, res) {
-        return res.view('admin/admin_surveys.ejs', {error:false});
+        return res.view('admin/admin_surveys.ejs', {error:false, page:'admin_surveys'});
     },
 
     /**
      * `AdminController.locales()`
      */
     locales: function (req, res) {
-        return res.view('admin/admin_locales.ejs', {error:false});
+        return res.view('admin/admin_locales.ejs', {error:false, page:"admin_locales"});
     },
 
     processLogin: function (req, res) {

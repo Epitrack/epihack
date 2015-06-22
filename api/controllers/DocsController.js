@@ -13,7 +13,7 @@ module.exports = {
    * `DocsController.index()`
    */
   index: function (req, res) {
-    return res.view("docs/index");
+    return res.view("docs/index", {page:'docs_index'});
   },
 
 
@@ -21,7 +21,7 @@ module.exports = {
    * `DocsController.config()`
    */
   config: function (req, res) {
-    return res.view("docs/docs_config");
+    return res.view("docs/docs_config", {page:'docs_config'});
   },
 
 
@@ -29,7 +29,7 @@ module.exports = {
    * `DocsController.admin()`
    */
   admin: function (req, res) {
-    return res.view("docs/docs_admin");
+    return res.view("docs/docs_admin", {page:'docs_admin'});
   },
 
 
@@ -37,7 +37,7 @@ module.exports = {
    * `DocsController.user()`
    */
   user: function (req, res) {
-    return res.view("docs/docs_user");
+    return res.view("docs/docs_user", {page:'docs_user'});
   },
 
 
@@ -45,7 +45,7 @@ module.exports = {
    * `DocsController.diseases()`
    */
   diseases: function (req, res) {
-    return res.view("docs/docs_diseases");
+    return res.view("docs/docs_diseases", {page:'docs_diseases'});
   },
 
 
@@ -53,7 +53,7 @@ module.exports = {
    * `DocsController.surveys()`
    */
   surveys: function (req, res) {
-    return res.view("docs/docs_surveys");
+    return res.view("docs/docs_surveys", {page:'docs_surveys'});
   },
 
 
@@ -61,7 +61,7 @@ module.exports = {
    * `DocsController.map()`
    */
   map: function (req, res) {
-    return res.view("docs/docs_map");
+    return res.view("docs/docs_map", {page:'docs_map'});
   },
 
 
@@ -69,7 +69,7 @@ module.exports = {
    * `DocsController.other()`
    */
   other: function (req, res) {
-    return res.view("docs/docs_other");
+    return res.view("docs/docs_other", {page:'docs_other'});
   }
 };
 

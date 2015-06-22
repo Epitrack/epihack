@@ -7,15 +7,14 @@ var bcrypt = require('bcrypt-nodejs');
  */
 
 module.exports = {
-
     attributes: {
-        email: {type: 'email'},
-        password: {type: 'string'},
-        nick: {type: 'string'},
-        dob: {type: 'date'},
-        gender: {type: 'string', enum: ['M', 'F']},
-        tw: {type: 'string'},
-        fb: {type: 'string'},
+        email: {type: 'email', unique:true, required:true},
+        password: {type: 'string', required:true},
+        nick: {type: 'string', required:false},
+        dob: {type: 'string', required:true},
+        gender: {type: 'string', enum: ['M', 'F'], required:true},
+        tw: {type: 'string', required:false},
+        fb: {type: 'string', required:false},
         toJSON: function () {
             var obj = this.toObject();
             delete obj.password;
@@ -24,6 +23,9 @@ module.exports = {
         }
     },
     beforeCreate: function (attr, next) {
+        if(attr.dob == null) {
+            attr.dob = attr.dob_month + '/' + attr.dob_year;
+        }
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
                 next(err);

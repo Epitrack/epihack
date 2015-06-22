@@ -26,6 +26,11 @@ $(document).ready(function () {
                 .text(value));
     });
 
+    $('#save_disease_symptoms').click(function(){
+        var k = $('.disease_symptoms').sortable("serialize");
+        console.log('k', k);
+    });
+
     if ($('#locale_list') != null) {
         var v = $('#app_language').val();
         $("#locale_list").val(v).attr("selected", "selected");
@@ -47,6 +52,16 @@ $(document).ready(function () {
         $('#map_container').locationpicker('autosize');
     });
 
+    var myDate = new Date();
+    var year = myDate.getFullYear();
+    for(var i = 1900; i < year+1; i++){
+        $('#user_dob_year').append('<option value="'+i+'">'+i+'</option>');
+    }
+
+    if(page=='user_edit') {
+        $('#user_dob_month').val(dob_month);
+        $('#user_dob_year').val(dob_year);
+    }
 
     $('.filterable .filters input').keyup(function (e) {
         /* Ignore tab key */

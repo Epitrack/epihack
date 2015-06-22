@@ -35,7 +35,12 @@ module.exports = function (req, res, next) {
         } else {
             // User is not allowed
             //console.log('User is not allowed');
-            return res.forbidden('You are not permitted to perform this action.');
+            if(req.xhr) {
+                return res.forbidden('You are not permitted to perform this action.');
+            } else {
+                var error = {error: true, message:'Access Denied'};
+                return res.clientAwareResponse('dashboard', 'admin/login', error);
+            }
         }
     }
 };

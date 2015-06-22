@@ -1,112 +1,32 @@
 <div style="margin-top: 60px">
     <div class="row">
         <div class="col-md-2 sidebar">
-            <%- partial('sidebar.ejs') %>
+          <%- partial('sidebar.ejs')%>
         </div>
         <div class="col-md-10">
             <div style="margin-left: 50px;margin-right: 50px">
-                <h1 class="page-header">Manage Users</h1>
-                <% if (users.length > 0) { %>
-                <div class="row">
-                <div class="panel panel-primary filterable">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">Users</h1>
-                        <div class="pull-right">
-                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table">
-                            <thead>
-                            <tr class="filters">
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="#"
-                                           disabled></th>
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="E-mail"
-                                           disabled></th>
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="Nickname"
-                                           disabled></th>
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="Gender"
-                                           disabled></th>
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="DoB"
-                                           disabled></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <% for(var i = 0; i < users.length; i++) { %>
-                            <tr>
-                                <td><%= users[i].id %></td>
-                                <td><a href="mailto:<%= users[i].email %>"><%= users[i].email %></a> </td>
-                                <td><%if(users[i].nick) {%><%= users[i].nick %><%}%></td>
-                                <td><%= users[i].gender %></td>
-                                <td><%= users[i].dob %></td>
-                                <td style="max-width: 110px">
-                                    <a href="user/edit/<%= users[i].id %>"
-                                       class="btn btn-info btn-xs">Edit</a>
-                                    <a href="user/delete/<%= users[i].id %>"
-                                       class="btn btn-warning btn-xs">Delete</a>
-                                </td>
-                            </tr>
-                            <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-                <% } else { %>
-                <div class="row">
-                <div class="alert alert-info"
-                     role="alert"><strong>Data is empty.</strong> Add some users below</div>
-            </div>
-                <% } %>
-                <% if (flash && flash.status) { %>
-                <div class="row">
-                <div class="alert alert-info alert-dismissible"
-                     role="alert">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
-            </div>
-                <% } %>
-                <% if (flash && flash.error) { %>
-                <div class="row">
-                <div class="alert alert-warning alert-dismissible"
-                     role="alert">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Warning!</strong> <%= flash.message %>
-                </div>
-            </div>
-                <% } %>
-                <div class="row">
+            <div class="row">
+                <h1 class="page-header">Edit User</h1>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title">Add User</h1>
+                        <h1 class="panel-title">User</h1>
                     </div>
                     <div class="panel-body">
-                        <form action="/user/create"
+                        <form action="/user/update"
                               method="post">
                             <input type="hidden"
                                    name="client"
                                    value="dashboard">
+                            <input type="hidden"
+                                   name="id"
+                                   value="<%=user.id%>">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="user_nick">Nickname</label>
                                         <input type="text"
                                                name="nick"
+                                               value="<%=user.nick%>"
                                                class="form-control"
                                                id="user_nick"
                                                placeholder="Nickname. Optional">
@@ -117,6 +37,7 @@
                                         <label for="user_email">Email</label>
                                         <input type="email"
                                                name="email"
+                                               value="<%=user.email%>"
                                                class="form-control"
                                                id="user_email"
                                                placeholder="User E-mail">
@@ -211,8 +132,12 @@
                         </form>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+        </div>
 </div>
+<script>
+    var dob_month = '<%=user.dob.split('/')[0]%>';
+    var dob_year = '<%=user.dob.split('/')[1]%>';
+</script>
