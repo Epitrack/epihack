@@ -14,7 +14,7 @@ module.exports = {
     connections:{
         'mongo_prod': {
             adapter: 'sails-mongo',
-            host: 'NO_PUBLIC_IP',
+            host: 'mongodb53606-epihack.jelasticlw.com.br',
             port: 27017,
             user: 'admin',
             password: 'aXr38iNVTg',
