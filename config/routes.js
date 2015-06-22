@@ -33,7 +33,10 @@ module.exports.routes = {
      ***************************************************************************/
 
     '/': {
-        view: 'home'
+        view: 'home',
+        locals:{
+            'page':'home'
+        }
     },
     'GET /admin': 'AdminController.index',
     'GET /admin/login': 'AdminController.login',

@@ -58,8 +58,10 @@ $(document).ready(function () {
         $('#user_dob_year').append('<option value="'+i+'">'+i+'</option>');
     }
 
-    $('#user_dob_month').val(dob_month);
-    $('#user_dob_year').val(dob_year);
+    if(page=='user_edit') {
+        $('#user_dob_month').val(dob_month);
+        $('#user_dob_year').val(dob_year);
+    }
 
     $('.filterable .filters input').keyup(function (e) {
         /* Ignore tab key */
