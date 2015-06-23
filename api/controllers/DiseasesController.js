@@ -95,9 +95,14 @@ module.exports = {
             if (err) return res.serverError(err);
             Disease.findOne(d_id).populateAll().exec(function (err, disease) {
                 if (err) res.serverError(err);
+                var m = [];
+                _.forEach(disease.symptoms, function(s){
+                    m.push(s.id);
+                });
                 res.view('admin/disease_edit', {
                     disease: disease,
                     symptoms:symptoms,
+                    disease_symptoms: m.join(','),
                     error: false,
                     page: 'disease_edit'
                 });

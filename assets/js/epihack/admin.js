@@ -27,8 +27,26 @@ $(document).ready(function () {
     });
 
     $('#save_disease_symptoms').click(function(){
-        var k = $('.disease_symptoms').sortable("serialize");
-        console.log('k', k);
+        var k = $('.disease_symptoms').sortable("serialize")[0];
+        var symptoms = [];
+        for(var i = 0;i< k.length;i++){
+            symptoms.push(k[i].id);
+        }
+        var s = symptoms.join(",");
+        var o = $('#disease_id').val();
+        var p = {
+            symptoms:s,
+            disease_id:o,
+            client:'api'
+        };
+        $.ajax('/diseases/symptoms', {
+            data:p,
+            method:'post',
+            success:function(d){
+                console.log('d',d);
+                window.location.reload();
+            }
+        });
     });
 
     if ($('#locale_list') != null) {

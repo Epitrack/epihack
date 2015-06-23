@@ -72,7 +72,7 @@ module.exports = {
                 var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
                 return res.clientAwareResponse(client, '/admin/diseases', error);
             }
-            return res.clientAwareResponse(client, '/admin/diseases', {
+            return res.clientAwareResponse(client, '/admin/symptoms', {
                 error: false,
                 status: true,
                 message: "Symptom Updated",
@@ -92,9 +92,9 @@ module.exports = {
             if (err) {
                 console.log(err);
                 var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return res.clientAwareResponse(client, '/admin/symptoms', error);
             } else {
-                return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Symptom Deleted"});
+                return res.clientAwareResponse(client, '/admin/symptoms', {status:true, message:"Symptom Deleted"});
             }
         });
     },
@@ -105,6 +105,17 @@ module.exports = {
         Symptom.find({}).exec(function (err, symptoms) {
             if (err) return next(err);
             return res.json({error: false, data: symptoms});
+        });
+    },
+    edit:function(req, res){
+        var d_id = req.param("symptom_id");
+        Symptom.findOne(d_id).populateAll().exec(function (err, symptom) {
+            if (err) res.serverError(err);
+            res.view('admin/symptom_edit', {
+                symptom: symptom,
+                error: false,
+                page: 'symptom_edit'
+            });
         });
     }
 };

@@ -19,6 +19,7 @@
                                        value="dashboard">
                                 <input type="hidden"
                                        name="id"
+                                       id="disease_id"
                                        value="<%= disease.id %>">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -72,20 +73,7 @@
                                     <ul class="symptoms_list vertical list-group"
                                         style="padding:5px;min-height: 50px;background: #eeeeee">
                                         <% for (var i = 0;i < symptoms.length;i++){ %>
-                                        <% if(disease.symptoms.length > 0) {%>
-                                        <% for (var j = 0;j < disease.symptoms.length;j++){ %>
-                                        <% if (disease.symptoms[j].code != symptoms[i].code || disease.symptoms.length == 0) { %>
-                                        <li class="list-group-item"
-                                            data-id="<%= symptoms[i].id %>">
-                                            <span class="badge"
-                                                  style="background: #2F6FAD;font-weight: normal"
-                                                  title="Symptom priority"><i class="glyphicon glyphicon-signal"></i>: <%= symptoms[i].priority %></span>
-                                            <% if(symptoms[i].is_required == true) { %>
-                                            <span class="badge" style="background: #f39c12" title="This Symptom is required"><i class='glyphicon glyphicon-exclamation-sign'></i></span>
-                                            <% } %>
-                                            <span title="Symptom code: <%= symptoms[i].code %>"><%= symptoms[i].name %></span>
-                                        </li>
-                                        <% }}}else{ %>
+                                        <% if(disease_symptoms.indexOf(symptoms[i].id) < 0) {%>
                                         <li class="list-group-item"
                                             data-id="<%= symptoms[i].id %>">
                                             <span class="badge"
@@ -101,14 +89,6 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h4><%= disease.name %>'s Symptoms</h4>
-                                    <% if (disease.symptoms.length == 0) { %>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="alert alert-info"
-                                                 role="alert"><strong>No Symptoms yet.</strong> Add some symptoms to the disease</div>
-                                        </div>
-                                    </div>
-                                    <% } %>
                                     <ul class="disease_symptoms vertical list-group"
                                         style="padding:5px; min-height: 50px;background: #eeeeee">
                                         <% for (var i = 0;i < disease.symptoms.length;i++){ %>
@@ -126,6 +106,14 @@
                                         </li>
                                         <% } %>
                                     </ul>
+                                    <% if (disease.symptoms.length == 0) { %>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="alert alert-info"
+                                                 role="alert"><strong>No Symptoms yet.</strong> Add some symptoms to the disease</div>
+                                        </div>
+                                    </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

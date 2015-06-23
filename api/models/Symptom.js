@@ -8,10 +8,10 @@
 module.exports = {
     identity: "Symptom",
     attributes: {
-        name: {type: 'string'},
-        code: {type: 'string', unique: true},
-        is_required: {type: 'boolean', defaultsTo: false},
-        priority: {type: 'integer', defaultsTo: 0},
+        name: {type: 'string', required:true},
+        code: {type: 'string', unique: true, required:true},
+        is_required: {type: 'boolean', defaultsTo: false, required:false},
+        priority: {type: 'integer', defaultsTo: 1, required:false},
         owners: {
             collection: 'Disease',
             via: 'symptoms'
