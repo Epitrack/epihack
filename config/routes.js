@@ -79,6 +79,16 @@ module.exports.routes = {
     'GET /user/delete/:user_id': 'UserController.delete',
     'GET /user/edit/:user_id': 'UserController.edit',
 
+    'POST /household/create': 'HouseholdController.create',
+    'POST /household/update': 'HouseholdController.update',
+    'GET /household': 'HouseholdController.list',
+    'GET /household/get': 'HouseholdController.read',
+    'GET /user/household/:user_id': 'HouseholdController.read',
+    'GET /household/:household_id': 'HouseholdController.read',
+    'GET /household/delete/:household_id': 'HouseholdController.delete',
+    'GET /household/delete': 'HouseholdController.delete',
+    'GET /household/edit/:household_id': 'HouseholdController.edit',
+
     'POST /survey/create': 'SurveyController.create',
     'GET /survey/:survey_id': 'SurveyController.read',
     'GET /surveys/s': 'SurveyController.getBySymptom',

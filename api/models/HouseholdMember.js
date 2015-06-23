@@ -1,7 +1,7 @@
 /**
  * HouseholdMember.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: Describes a model for household member
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
@@ -10,7 +10,7 @@ module.exports = {
         user: {model: 'User'},
         nick: {type: 'string'},
         gender: {type: 'string'},
-        dob: {type: 'date'},
+        dob: {type: 'string'},
         surveys: {
             collection: 'Survey',
             via: 'household'
