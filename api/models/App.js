@@ -15,7 +15,15 @@ module.exports = {
         latitude: {type: 'integer', required:true},
         longitude: {type: 'integer', required:true},
         token: {type: 'string', required:true},
-        secret: {type: 'String', required:true}
+        secret: {type: 'String', required: true},
+        toJSON: function () {
+            var obj = this.toObject();
+            delete obj.secret;
+            delete obj.id;
+            delete obj.createdAt;
+            delete obj.updatedAt;
+            return obj;
+        }
     }
 };
 
