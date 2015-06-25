@@ -118,7 +118,7 @@ module.exports = {
                     message: 'An error ocurred: ' + err.toString()
                 });
             }
-            User.find({}).exec(function (err, users) {
+            User.find({}).populate('app').exec(function (err, users) {
                 if (err) {
                     return res.status(500).send({
                         error: true,

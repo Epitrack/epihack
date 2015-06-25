@@ -32,7 +32,7 @@ module.exports.policies = {
     },
     UserController: {
         '*':['flash','sessionAuth'],
-        'login':['flash']
+        'login': ['flash']
     },
     SymptomsController: {
         '*':['flash','sessionAuth']
@@ -42,6 +42,9 @@ module.exports.policies = {
     },
     SurveyController: {
         '*': ['flash', 'hasValidAppToken']
+    },
+    TranslationsController: {
+        '*':['flash','sessionAuth']
     }
 
     /***************************************************************************

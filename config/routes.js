@@ -74,10 +74,10 @@ module.exports.routes = {
     'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete',
     'GET /symptoms/edit/:symptom_id': 'SymptomsController.edit',
 
+    'GET /user/login': 'UserController.login',
     'GET /users': 'UserController.list',
     'GET /user': 'UserController.profile',
     'GET /user/get': 'UserController.read',
-    'GET /user/login': 'UserController.login',
     'GET /user/:user_id': 'UserController.read',
     'GET /user/delete/:user_id': 'UserController.delete',
     'GET /user/edit/:user_id': 'UserController.edit',
@@ -97,7 +97,15 @@ module.exports.routes = {
     'GET /survey/:survey_id': 'SurveyController.read',
     'GET /surveys/s': 'SurveyController.getBySymptom',
     'GET /surveys/d': 'SurveyController.getByDisease',
-    'GET /user/surveys/:user_id': 'SurveyController.read'
+    'GET /user/surveys/:user_id': 'SurveyController.read',
+
+    'GET /admin/translations': 'TranslationsController.index',
+    'GET /translations/edit/:translation_id': 'TranslationsController.edit',
+    'GET /translations/key/:key': 'TranslationsController.read',
+    'GET /translations/:translation_id': 'TranslationsController.read',
+    'GET /translations/delete/:translation_id': 'TranslationsController.delete',
+    'POST /translations/create': 'TranslationsController.create',
+    'POST /translations/update': 'TranslationsController.update'
 
 
     /***************************************************************************

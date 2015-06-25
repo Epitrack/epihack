@@ -10,7 +10,7 @@
  */
 
 module.exports.bootstrap = function(cb) {
-    var max_boostraps = 4;
+    var max_boostraps = 5;
     var current_boostrap = 0;
     function single_callback(err){
         current_boostrap++;
@@ -23,6 +23,22 @@ module.exports.bootstrap = function(cb) {
           cb();
       }
     }
+    Translation.find({}).limit(2).exec(function(err, translations){
+        if(translations.length == 0) {
+            console.log("adding bootstrap translations");
+            Translation.create([
+                {key:'fever', value: 'Febre', group:'symptoms', locale:'pt-BR'},
+                {key:'headache', value: 'Dor de cabeça', group:'symptoms', locale:'pt-BR'},
+                {key:'cough', value: 'Tosse', group:'symptoms', locale:'pt-BR'},
+                {key:'fatigue', value: 'Cansaço', group:'symptoms', locale:'pt-BR'},
+                {key:'flu', value: 'Gripe', group:'diseases', locale:'pt-BR'},
+                {key:'dengue', value: 'Dengue', group:'diseases', locale:'pt-BR'}
+            ], single_callback);
+        } else {
+            console.log("the system already has translations. skipping bootstrap");
+            single_callback(null);
+        }
+    });
     Symptom.find({}).limit(2).exec(function(err, symptoms){
        if(symptoms.length == 0) {
            console.log("adding bootstrap symptoms");

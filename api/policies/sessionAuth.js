@@ -39,10 +39,11 @@ module.exports = function (req, res, next) {
                 return res.forbidden('You are not permitted to perform this action. : sessionAuth');
             } else {
                 var error = {error: true, message: 'Access Denied : sessionAuth'};
-                if (req.url.indexOf('admin') >= 0) {
-                    return res.clientAwareResponse('dashboard', 'admin/login', error);
-                } else {
+                console.log("URL", req.url);
+                if (req.url.indexOf('user') >= 0) {
                     return res.clientAwareResponse('dashboard', 'user/login', error);
+                } else {
+                    return res.clientAwareResponse('dashboard', 'admin/login', error);
                 }
             }
         }

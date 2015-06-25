@@ -6,14 +6,6 @@
  */
 
 module.exports = {
-    /**
-     * `AppController.init()`
-     */
-    init: function (req, res) {
-        return res.json({
-            todo: 'init() is not implemented yet!'
-        });
-    },
     create:function(req, res) {
         var client = req.body.client || 'api';
         delete req.body.client;
@@ -93,7 +85,8 @@ module.exports = {
                 var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
                 return res.clientAwareResponse(client, '/admin/config', error);
             }
-            return res.clientAwareResponse(client, '/admin/config', {error:false, status:true, message:"Configuration Updated", user:upb});
+            return res.clientAwareResponse(client, '/admin/config',
+                {error:false, status:true, message:"Configuration Updated", config:upb});
         });
     },
     delete: function (req, res) {

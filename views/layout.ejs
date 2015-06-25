@@ -132,7 +132,7 @@
     -->
 
          <!--TEMPLATES-->
-         
+
          <!--TEMPLATES END-->
 
 
@@ -173,7 +173,7 @@
            e.preventDefault();
            $("#wrapper").toggleClass("toggled");
        });
-       var page = '<%=page%>';
+       var page = '<%this.page != null ? this.page : 'unknown'%>';
    </script>
   </body>
 </html>

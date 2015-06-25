@@ -63,7 +63,13 @@
                             </b> <span class="caret"></span></a>
                         <ul id="login-dp"
                             class="dropdown-menu">
-                            <li><a href="#">Edit Profile</a> </li>
+                            <li>
+                                <% if(session.UserKind == 'admin'){%>
+                                <a href="admin/edit/<%=session.User.id%>">Edit Profile</a>
+                                <%} else {%>
+                                <a href="user">Edit Profile</a>
+                                <%}%>
+                            </li>
                             <li><a href="logout">Logout</a></li>
                         </ul>
                     </li>

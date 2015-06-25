@@ -113,12 +113,6 @@ module.exports = {
      */
     surveys: function (req, res) {
         return res.view('admin/admin_surveys.ejs', {error:false, page:'admin_surveys'});
-    },
-    /**
-     * `AdminController.locales()`
-     */
-    locales: function (req, res) {
-        return res.view('admin/admin_locales.ejs', {error:false, page:"admin_locales"});
     }
 };
 
