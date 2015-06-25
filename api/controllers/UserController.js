@@ -1,5 +1,3 @@
-var createAndSendToken = require('../services/createSendToken.js');
-var bcrypt = require('bcrypt-nodejs');
 /**
  * UserController
  *
@@ -113,47 +111,34 @@ module.exports = {
      * `UserController.index()`
      */
     index: function (req, res) {
-        User.find({}).exec(function (err, users) {
-            if (err) return next(err);
-            res.view('admin/admin_users', {
-                users: users,
-                error: false,
-                page: 'admin_users'
+        App.find({}).exec(function (err, apps) {
+            if (err) {
+                return res.status(500).send({
+                    error: true,
+                    message: 'An error ocurred: ' + err.toString()
+                });
+            }
+            User.find({}).exec(function (err, users) {
+                if (err) {
+                    return res.status(500).send({
+                        error: true,
+                        message: 'An error ocurred: ' + err.toString()
+                    });
+                }
+                res.view('admin/admin_users', {
+                    users: users,
+                    apps: apps,
+                    error: false,
+                    page: 'admin_users'
+                });
             });
         });
     },
-    /**
-     * `UserController.login()`
-     */
     login: function (req, res) {
-        var client = req.body.client || 'api';
-        var email = req.body.email;
-        var password = req.body.password;
-        if (!email || !password) {
-            return res.status(401).send({
-                message: 'email and password required'
-            });
-        }
-        User.findOneByEmail(email).populateAll().exec(function (err, foundUser) {
-            if (!foundUser) {
-                return res.status(401).send({
-                    message: 'User Not found'
-                });
-            }
-            bcrypt.compare(password, foundUser.password, function (err, valid) {
-                if (err) return res.status(403);
-                if (!valid) {
-                    return res.status(401).send({
-                        message: 'User Not found'
-                    });
-                }
-                if (client == 'api') {
-                    createAndSendToken(foundUser, res);
-                } else {
-                    res.redirect("/");
-                }
-            });
-        });
+        res.view('user/login', {page: 'user_login'});
+    },
+    profile: function (req, res) {
+        res.view('user/user_index', {page: 'user_index'});
     }
 };
 

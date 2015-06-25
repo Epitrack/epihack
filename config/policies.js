@@ -22,8 +22,7 @@ module.exports.policies = {
     '*': 'flash',
     AdminController :{
         '*' : ['flash','sessionAuth'],
-        'login':['flash'],
-        'processLogin':['flash']
+        'login': ['flash']
     },
     AppController: {
         '*':['flash','sessionAuth']

@@ -1,6 +1,7 @@
 <div
      style="margin-top: 60px">
-    <div class="row">
+    <div class="row"
+         style="padding: 0;margin: 0">
         <div class="col-md-2 sidebar">
             <%- partial('sidebar.ejs') %>
         </div>
@@ -38,11 +39,7 @@
                                            disabled></th>
                                 <th><input type="text"
                                            class="form-control"
-                                           placeholder="Default Location"
-                                           disabled></th>
-                                <th><input type="text"
-                                           class="form-control"
-                                           placeholder="Client Token"
+                                           placeholder="Location"
                                            disabled></th>
                                 <th><input type="text"
                                            class="form-control"
@@ -61,7 +58,6 @@
                                 <td><%= configs[i].name %></td>
                                 <td><a href="<%= configs[i].url %>"><%= configs[i].url %></a></td>
                                 <td><%= configs[i].location %></td>
-                                <td><%= configs[i].token %></td>
                                 <td><%= configs[i].language %></td>
                                 <td class="<%= configs[i].default ? 'text-success' : 'text-default' %>"
                                     width="80px">
@@ -69,13 +65,18 @@
                                        aria-hidden="true"></i>
                                     <span><%= configs[i].default ? 'YES' : 'NO' %></span>
                                 </td>
-                                <td width="18%">
+                                <td width="150">
                                     <a href="app/edit/<%= configs[i].id %>"
-                                       class="btn btn-info btn-xs">Edit</a>
+                                       title="Edit"
+                                       class="btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a>
                                     <a href="app/delete/<%= configs[i].id %>"
-                                       class="btn btn-danger btn-xs">Delete</a>
+                                       title="Delete"
+                                       class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                                     <a href="app/default/<%= configs[i].id %>"
-                                       class="btn btn-success btn-xs <%= configs[i].default ? 'disabled' : '' %>">Make Default</a>
+                                       title="Make Default"
+                                       class="btn btn-success btn-sm <%= configs[i].default ? 'disabled' : '' %>">
+                                        <i class="glyphicon glyphicon-star"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <% } %>

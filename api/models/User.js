@@ -9,7 +9,7 @@ var bcrypt = require('bcrypt-nodejs');
 module.exports = {
     attributes: {
         email: {type: 'email', unique:true, required:true},
-        app_token:{type:'string', required:true},
+        app: {model: 'App', required: true},
         password: {type: 'string', required:true},
         nick: {type: 'string', required:false},
         dob: {type: 'string', required:true},
@@ -20,21 +20,48 @@ module.exports = {
             collection: 'Survey',
             via: 'user'
         },
-        household_members: {
-            collection: 'HouseholdMember',
+        household: {
+            collection: 'Household',
             via: 'user'
         },
         toJSON: function () {
             var obj = this.toObject();
             delete obj.password;
             delete obj.createdAt;
+            delete obj.updatedAt;
             return obj;
         }
     },
-    beforeCreate: function (attr, next) {
-        if(attr.dob == null) {
-            attr.dob = attr.dob_month + '/' + attr.dob_year;
+    beforeValidate: function (attr, next) {
+        if (attr.password == '') {
+            delete attr.password;
         }
+        if (attr.dob == null && attr.dob_month != null && attr.dob_year != null) {
+            console.log("injecting dob");
+            attr.dob = attr.dob_month + '/' + attr.dob_year;
+            delete attr.dob_month;
+            delete attr.dob_year;
+        }
+        if (attr.app == null && attr.app_token != null) {
+            console.log("injecting app token");
+            App.findOne({token: attr.app_token}, function (err, app) {
+                if (err || app.id == null) {
+                    return res.status(500).send({
+                        error: true,
+                        message: 'Invalid app id: ' + err.toString()
+                    });
+                } else {
+                    console.log("found app:", app.name, app.id);
+                    attr.app = app.id;
+                    delete attr.app_token;
+                    next();
+                }
+            })
+        } else {
+            next();
+        }
+    },
+    beforeCreate: function (attr, next) {
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
                 next(err);

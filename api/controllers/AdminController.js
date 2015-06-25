@@ -1,5 +1,3 @@
-var bcrypt = require('bcrypt-nodejs');
-var createAndSendToken = require('../services/createSendToken.js');
 /**
  * AdminController
  *
@@ -121,48 +119,6 @@ module.exports = {
      */
     locales: function (req, res) {
         return res.view('admin/admin_locales.ejs', {error:false, page:"admin_locales"});
-    },
-    processLogin: function (req, res) {
-        if (req.method == 'POST') {
-            var email = req.body.email;
-            var password = req.body.password;
-            var client = req.body.client || 'api';
-            var error = false;
-            if (!email || !password) {
-                error = {error:true, message: 'Email and password required'};
-                return res.clientAwareResponse(client, 'admin/login', error);
-            }
-
-            Admin.findOneByEmail(email, function (err, foundUser) {
-                if (!foundUser) {
-                    error = {error: true, message:'Unrecognized E-mail'};
-                    return res.clientAwareResponse(client, 'admin/login', error);
-                }
-
-                bcrypt.compare(password, foundUser.password, function (err, valid) {
-                    if (err) {
-                        error = {error: true, message:'There was an error processing your request. Try again'};
-                        return res.clientAwareResponse(client, 'admin/login', error);
-                    }
-
-                    if (!valid) {
-                        var error = {error: true, message:'Access Denied'};
-                        return res.clientAwareResponse(client, 'admin/login', error);
-                    }
-
-                    req.session.authenticated = true;
-                    req.session.User = foundUser;
-                    if(client == 'api') {
-                        createAndSendToken(foundUser, res);
-                    } else {
-                        res.redirect("/admin/");
-                    }
-                });
-
-            });
-        } else {
-            return res.view('admin/login', {error: false});
-        }
     }
 };
 

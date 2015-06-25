@@ -38,6 +38,7 @@ module.exports.routes = {
             'page':'home'
         }
     },
+    'GET /logout': 'AuthController.logout',
     'GET /admin': 'AdminController.index',
     'GET /admin/login': 'AdminController.login',
     'GET /admin/edit/:admin_id': 'AdminController.edit',
@@ -47,7 +48,7 @@ module.exports.routes = {
     'GET /admin/symptoms': 'SymptomsController.index',
     'GET /admin/users': 'UserController.index',
 
-    'POST /admin/login': 'AdminController.processLogin',
+    'POST /admin/login': 'AuthController.loginAdmin',
     'POST /admin/create': 'AdminController.create',
 
     'POST /app/create': 'AppController.create',
@@ -74,10 +75,13 @@ module.exports.routes = {
     'GET /symptoms/edit/:symptom_id': 'SymptomsController.edit',
 
     'GET /users': 'UserController.list',
+    'GET /user': 'UserController.profile',
     'GET /user/get': 'UserController.read',
+    'GET /user/login': 'UserController.login',
     'GET /user/:user_id': 'UserController.read',
     'GET /user/delete/:user_id': 'UserController.delete',
     'GET /user/edit/:user_id': 'UserController.edit',
+    'POST /user/login': 'AuthController.loginUser',
 
     'POST /household/create': 'HouseholdController.create',
     'POST /household/update': 'HouseholdController.update',

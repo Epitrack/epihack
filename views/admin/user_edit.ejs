@@ -1,5 +1,6 @@
 <div style="margin-top: 60px">
-    <div class="row">
+    <div class="row"
+         style="padding: 0;margin: 0">
         <div class="col-md-2 sidebar">
           <%- partial('sidebar.ejs')%>
         </div>
@@ -26,7 +27,7 @@
                                         <label for="user_nick">Nickname</label>
                                         <input type="text"
                                                name="nick"
-                                               value="<%=user.nick%>"
+                                               value="<% if(user.nick) { %> <%= user.nick %> <% } %>"
                                                class="form-control"
                                                id="user_nick"
                                                placeholder="Nickname. Optional">

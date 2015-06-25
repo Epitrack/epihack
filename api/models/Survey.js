@@ -15,7 +15,7 @@ module.exports = {
         /**
          * The household member target for this survey. Can be null
          */
-        household: {model: 'HouseholdMember'},
+        household: {model: 'Household'},
         /**
          * Comma separated list of symptoms codes. Think of it as tags.
          * To obtain the list of symptoms codes for the disease you want to cover, use /diseases/get

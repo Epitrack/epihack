@@ -13,7 +13,7 @@ module.exports = {
         var client = req.body.client || 'api';
         delete req.body.client;
         var params = req.body;
-        HouseholdMember.create(params).exec(function createCB(err, hm) {
+        Household.create(params).exec(function createCB(err, hm) {
             if (err) {
                 var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
                 console.log(err);
@@ -38,7 +38,7 @@ module.exports = {
         } else if (req.param('user_id') != null) {
             params = {user: req.param('user_id')};
         }
-        HouseholdMember.find(params).populateAll().exec(function (err, user) {
+        Household.find(params).populateAll().exec(function (err, user) {
             if (err) return next(err);
             return res.json({error: false, data: user});
         });
@@ -47,7 +47,7 @@ module.exports = {
      * `HouseholdController.list()`
      */
     list: function (req, res) {
-        HouseholdMember.find({}).exec(function (err, users) {
+        Household.find({}).exec(function (err, users) {
             if (err) return next(err);
             return res.json({error: false, data: users});
         });
@@ -59,7 +59,7 @@ module.exports = {
         var client = req.body.client || 'api';
         delete req.body.client;
         var params = req.body;
-        HouseholdMember.update({
+        Household.update({
             id: params.id
         }, params).exec(function afterwards(err, upb) {
             if (err) {
@@ -92,7 +92,7 @@ module.exports = {
     delete: function (req, res) {
         var household_id = req.param("household_id");
         var client = req.param("client") || 'dashboard';
-        HouseholdMember.destroy({
+        Household.destroy({
             id: household_id
         }).exec(function (err) {
             if (err) {
