@@ -1,3 +1,5 @@
+var findUserByToken = require('../services/findUserByToken');
+var flash403 = require('../services/flash403');
 /**
  * sessionAuth
  *
@@ -8,42 +10,33 @@
  *
  */
 module.exports = function (req, res, next) {
-
     // User is allowed, proceed to the next policy,
     // or if this is the last policy, the controller
     if (req.session.authenticated) {
         return next();
     } else {
-        if (req.header('app_token') != null) {
-            var app_token = req.header('app_token');
-            App.findOne({token: app_token}, function (err, app) {
-                if (err) {
-                    //console.log('bad request');
-                    return res.badRequest(err);
+        if (req.header('user_token') != null) {
+            var user_token = req.header('user_token');
+            findUserByToken(user_token, function (result) {
+                if (result) {
+                    return next();
                 } else {
-                    console.log("found app",app);
-                    if (app != undefined && app.token == app_token) {
-                        //console.log('token ok');
-                        return next();
-                    } else {
-                        // User is not allowed
-                        //console.log('token not ok');
-                        return res.forbidden('Invalid App Token : sessionAuth');
-                    }
+                    return flash403(req, res, {error: true, message: 'invalid user_token : sessionAuth'});
                 }
             });
         } else {
             // User is not allowed
             //console.log('User is not allowed');
+            var client = req.param('client') || 'dashboard';
             if(req.xhr) {
-                return res.forbidden('You are not permitted to perform this action. : sessionAuth');
+                return flash403(req, res, {error: true, message: 'Not Authorized : isAdmin'});
             } else {
                 var error = {error: true, message: 'Access Denied : sessionAuth'};
                 console.log("URL", req.url);
                 if (req.url.indexOf('user') >= 0) {
-                    return res.clientAwareResponse('dashboard', 'user/login', error);
+                    return res.clientAwareResponse(client, 'user/login', error);
                 } else {
-                    return res.clientAwareResponse('dashboard', 'admin/login', error);
+                    return res.clientAwareResponse(client, 'admin/login', error);
                 }
             }
         }

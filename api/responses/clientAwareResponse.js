@@ -9,6 +9,6 @@ module.exports = function clientAwareResponse (client, view, data){
     } else {
         sails.log.verbose('Returning view: \n',data);
         req.session.flash = data;
-        res.redirect(view);
+        return res.redirect(view);
     }
 };

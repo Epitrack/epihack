@@ -11,40 +11,57 @@
  *
  * For more information on how policies work, see:
  * http://sailsjs.org/#!/documentation/concepts/Policies
- *
+ *w
  * For more information on configuring policies, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.policies.html
  */
 
 
 module.exports.policies = {
-
     '*': 'flash',
     AdminController :{
-        '*' : ['flash','sessionAuth'],
-        'login': ['flash']
+        'login': 'flash',
+        '*': ['flash', 'sessionAuth', 'hasValidAppToken', 'isAdmin']
     },
     AppController: {
-        '*':['flash','sessionAuth']
+        '*': ['flash', 'sessionAuth', 'hasValidAppToken', 'isAdmin']
     },
     DiseasesController: {
-        '*':['flash','sessionAuth']
+        '*': ['flash', 'sessionAuth', 'isAdmin'],
+        'list': ['flash', 'hasValidAppToken'],
+        'get': ['flash', 'hasValidAppToken']
     },
     UserController: {
+        'login': 'flash',
         '*':['flash','sessionAuth'],
-        'login': ['flash']
+        'create': ['flash', 'hasValidAppToken'],
+        'read': ['flash', 'hasValidAppToken'],
+        'list': ['flash', 'isAdmin'],
+        'update': ['flash', 'sessionAuth', 'isOwnerOrAdmin'],
+        'profile': ['flash', 'sessionAuth', 'isUser'],
+        'report': ['flash', 'sessionAuth', 'isUser'],
+        'edit': ['flash', 'sessionAuth', 'isOwnerOrAdmin'],
+        'index': ['flash', 'sessionAuth', 'isAdmin']
     },
     SymptomsController: {
-        '*':['flash','sessionAuth']
+        '*': ['flash', 'sessionAuth', 'isAdmin'],
+        'read': ['flash', 'hasValidAppToken'],
+        'list': ['flash', 'hasValidAppToken'],
+        'edit': ['flash', 'sessionAuth', 'isAdmin'],
+        'update': ['flash', 'sessionAuth', 'isAdmin'],
+        'delete': ['flash', 'sessionAuth', 'isAdmin']
     },
     DocsController:{
         '*':true
     },
     SurveyController: {
-        '*': ['flash', 'hasValidAppToken']
+        '*': ['flash', 'hasValidAppToken'],
+        'index': ['flash', 'sessionAuth', 'isAdmin']
     },
     TranslationsController: {
-        '*':['flash','sessionAuth']
+        '*': ['flash', 'sessionAuth', 'isAdmin'],
+        'read': ['flash', 'hasValidAppToken'],
+        'list': ['flash', 'hasValidAppToken']
     }
 
     /***************************************************************************

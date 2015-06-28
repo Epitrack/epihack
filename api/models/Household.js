@@ -15,5 +15,21 @@ module.exports = {
             collection: 'Survey',
             via: 'household'
         }
+    },
+    beforeValidate: function (attr, next) {
+        if (attr.picture == null || attr.picture == "") {
+            if (attr.gender == 'M') {
+                attr.picture = 'https://cdn3.iconfinder.com/data/icons/softicons/PNG/User-Male.png';
+            } else {
+                attr.picture = 'https://cdn3.iconfinder.com/data/icons/softicons/PNG/User-Female.png';
+            }
+        }
+        if (attr.dob == null && attr.dob_month != null && attr.dob_year != null) {
+            console.log("injecting dob");
+            attr.dob = attr.dob_month + '/' + attr.dob_year;
+            delete attr.dob_month;
+            delete attr.dob_year;
+        }
+        next();
     }
 };

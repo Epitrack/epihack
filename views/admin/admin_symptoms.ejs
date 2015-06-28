@@ -84,28 +84,7 @@
                          role="alert"><strong>Data is empty.</strong> Add some symptoms first.</div>
                 </div>
                 <% } %>
-                <% if (flash && flash.status) { %>
-                <div class="row">
-                    <div class="alert alert-info alert-dismissible"
-                         role="alert">
-                        <button type="button"
-                                class="close"
-                                data-dismiss="alert"
-                                aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
-                </div>
-                <% } %>
-                <% if (flash && flash.error) { %>
-                <div class="row">
-                    <div class="alert alert-warning alert-dismissible"
-                         role="alert">
-                        <button type="button"
-                                class="close"
-                                data-dismiss="alert"
-                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Warning!</strong> <%= flash.message %>
-                    </div>
-                </div>
-                <% } %>
+                <%- partial('../partials/flash.ejs') %>
             </div>
         </div>
     </div>

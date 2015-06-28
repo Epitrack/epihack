@@ -7,10 +7,10 @@
             </a>
         </li>
         <li class="<%= Helper.isCurrentPage(req, 'user', 'profile') ? 'active' : 'item' %>">
-            <a href="/user">User Profile</a>
+            <a href="/user/profile">User Profile</a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'user', 'survey') ? 'active' : 'item' %>">
-            <a href="/user/survey">Add new Survey</a>
+        <li class="<%= Helper.isCurrentPage(req, 'user', 'report') ? 'active' : 'item' %>">
+            <a href="/user/report">Report your Symptoms</a>
         </li>
     </ul>
 </div><!-- /#sidebar-wrapper -->

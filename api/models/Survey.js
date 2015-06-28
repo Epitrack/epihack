@@ -29,8 +29,9 @@ module.exports = {
         /**
          * GPS Coords
          */
-        lat: {type: 'integer', required: true},
-        lon: {type: 'integer', required: true},
+        lat: {type: 'float', required: true},
+        lon: {type: 'float', required: true},
+        coordinates: {type: 'json'},
         /**
          * User's zip. can be null
          */
@@ -59,6 +60,43 @@ module.exports = {
          * The platform in which this survey was submitted. usually: web, ios, android
          */
         platform: {type: 'string', enum: ['web', 'ios', 'android']}
+    },
+    beforeValidate: function (survey, next) {
+        if (survey.coordinates == null) {
+            survey.coordinates = [
+                survey.lon,
+                survey.lat
+            ];
+            next();
+        } else {
+            console.log("survey coordinates", survey.coordinates);
+            next();
+        }
+    },
+    search: function (location) {
+        // Let's build up a MongoDB query
+        var query = {};
+        // We need to use `native` for geo queries
+        Survey.native(function (err, collection) {
+            // Co-ordinates are passed from the client side (GMaps JS API)
+            // Note that we don't get them server-side because apparently
+            // the server-side API isn't designed for real-time user searches.
+            // Probably too slow or something.
+            collection.find(
+                query.coordinates = {
+                    $near: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [ // long then lat
+                                location.coordinates.longitude,
+                                location.coordinates.latitude
+                            ]
+                        },
+                        $maxDistance: 100
+                    }
+                });
+
+        });
     }
 };
 

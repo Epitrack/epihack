@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * AppController
  *
@@ -12,9 +13,10 @@ module.exports = {
         var app = req.body;
         App.create(app).exec(function createCB(err, b) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/config', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/config', {error:false, status:true, message:"App Created", app:b});
             }
@@ -31,7 +33,10 @@ module.exports = {
             params = {id:req.param('app_id')};
         }
         App.find(params).exec(function (err, apps) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: apps});
         });
     },
@@ -40,15 +45,21 @@ module.exports = {
      */
     list: function (req, res) {
         App.find({}).exec(function (err, apps) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: apps});
         });
     },
     edit: function (req, res) {
         var app_id = req.param("app_id");
         App.findOne(app_id).exec(function (err, app) {
-            if (err) return next(err);
-            res.view('admin/app_edit', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/app_edit', {
                 app: app,
                 error: false,
                 page:'app_edit'
@@ -58,15 +69,17 @@ module.exports = {
     default:function(req, res){
         App.update({default:true}, {default:false}, function defaultUpdated(err, updatedConfig){
             if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                return res.clientAwareResponse('dashboard', '/admin/config', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             }
             App.update({id:req.param('app_id')}, {default:true}, function configUpdated(err, c){
                 if (err) {
-                    console.log(err);
-                    var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                    return res.clientAwareResponse('dashboard', '/admin/config', error);
+                    return flash500(req, res, {
+                        error: true,
+                        message: 'There was an error processing your request: \n' + err
+                    });
                 } else {
                     return res.clientAwareResponse('dashboard', '/admin/config', {error:false, status:true, message:"Configuration Updated", app:c});
                 }
@@ -81,9 +94,10 @@ module.exports = {
             id: app.id
         }, app).exec(function afterwards(err, upb) {
             if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/config', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             }
             return res.clientAwareResponse(client, '/admin/config',
                 {error:false, status:true, message:"Configuration Updated", config:upb});
@@ -96,9 +110,10 @@ module.exports = {
             id: app_id
         }).exec(function (err) {
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/config', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/config', {status:true, message:"Configuration Deleted"});
             }

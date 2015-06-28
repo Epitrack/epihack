@@ -170,16 +170,28 @@
         </h1>
 
         <h2>
-            <% if (typeof error !== 'undefined') { %>
-            <%= error %>
-            <% } else { %>
             You don't have permission to see the page you're trying to reach.
-            <% } %>
         </h2>
 
-        <p class="help">
-            <a href="http://en.wikipedia.org/wiki/HTTP_403">Why</a> might this be happening?
-        </p>
+        <% if (flash && flash.error || data.error) { %>
+        <div class="row"
+             style="margin-bottom: 10px;margin-top: 30px">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div class="alert alert-danger alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong><%= flash.title || data.title || 'Warning!' %></strong> <%= flash.message || data.message %>
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+        <% } %>
     </div>
 
     <div class="logo">

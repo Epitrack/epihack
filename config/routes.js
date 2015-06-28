@@ -38,6 +38,18 @@ module.exports.routes = {
             'page':'home'
         }
     },
+
+
+    /***************************************************************************
+     *                                                                          *
+     * Custom routes here...                                                    *
+     *                                                                          *
+     * If a request to a URL doesn't match any of the custom routes above, it   *
+     * is matched against Sails route blueprints. See `config/blueprints.js`    *
+     * for configuration options and examples.                                  *
+     *                                                                          *
+     ***************************************************************************/
+
     'GET /logout': 'AuthController.logout',
     'GET /admin': 'AdminController.index',
     'GET /admin/login': 'AdminController.login',
@@ -74,48 +86,41 @@ module.exports.routes = {
     'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete',
     'GET /symptoms/edit/:symptom_id': 'SymptomsController.edit',
 
-    'GET /user/login': 'UserController.login',
     'GET /users': 'UserController.list',
+    'GET /user/login': 'UserController.login',
+    'GET /user/profile': 'UserController.profile',
     'GET /user': 'UserController.profile',
+    'GET /user/report': 'UserController.report',
     'GET /user/get': 'UserController.read',
-    'GET /user/:user_id': 'UserController.read',
+    'GET /user/get/:user_id': 'UserController.read',
     'GET /user/delete/:user_id': 'UserController.delete',
     'GET /user/edit/:user_id': 'UserController.edit',
-    'POST /user/login': 'AuthController.loginUser',
+    'GET /user/household/:user_id': 'HouseholdController.read',
+    'GET /user/surveys/:user_id': 'SurveyController.read',
 
+    'POST /user/login': 'AuthController.loginUser',
     'POST /household/create': 'HouseholdController.create',
     'POST /household/update': 'HouseholdController.update',
+
     'GET /household': 'HouseholdController.list',
     'GET /household/get': 'HouseholdController.read',
-    'GET /user/household/:user_id': 'HouseholdController.read',
-    'GET /household/:household_id': 'HouseholdController.read',
+    'GET /household/get/:household_id': 'HouseholdController.read',
     'GET /household/delete/:household_id': 'HouseholdController.delete',
     'GET /household/delete': 'HouseholdController.delete',
     'GET /household/edit/:household_id': 'HouseholdController.edit',
 
     'POST /survey/create': 'SurveyController.create',
-    'GET /survey/:survey_id': 'SurveyController.read',
+
+    'GET /survey/get/:survey_id': 'SurveyController.read',
     'GET /surveys/s': 'SurveyController.getBySymptom',
     'GET /surveys/d': 'SurveyController.getByDisease',
-    'GET /user/surveys/:user_id': 'SurveyController.read',
 
     'GET /admin/translations': 'TranslationsController.index',
     'GET /translations/edit/:translation_id': 'TranslationsController.edit',
     'GET /translations/key/:key': 'TranslationsController.read',
     'GET /translations/:translation_id': 'TranslationsController.read',
     'GET /translations/delete/:translation_id': 'TranslationsController.delete',
+
     'POST /translations/create': 'TranslationsController.create',
     'POST /translations/update': 'TranslationsController.update'
-
-
-    /***************************************************************************
-     *                                                                          *
-     * Custom routes here...                                                    *
-     *                                                                          *
-     * If a request to a URL doesn't match any of the custom routes above, it   *
-     * is matched against Sails route blueprints. See `config/blueprints.js`    *
-     * for configuration options and examples.                                  *
-     *                                                                          *
-     ***************************************************************************/
-
 };

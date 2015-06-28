@@ -1,3 +1,5 @@
+var flash403 = require('../services/flash403');
+var flash500 = require('../services/flash500');
 /**
  * sessionAuth
  *
@@ -8,30 +10,34 @@
  *
  */
 module.exports = function (req, res, next) {
-    var client = req.param('client') || 'api';
-    var app_token = req.param('app_token') || req.headers.app_token;
-    //console.log("app_token", app_token, req.headers.app_token, client);
-    if (app_token != null) {
-        App.findOne({token: app_token}, function (err, app) {
-            if (err) {
-                return res.badRequest(err);
-            } else {
-                if (app != undefined && app.token == app_token) {
-                    return next();
-                } else {
-                    return res.forbidden({error: true, message: 'Invalid App Token : hasValidAppToken'});
-                }
-            }
-        });
+    if (req.session.authenticated) {
+        return next();
     } else {
-        if (client == 'api') {
-            return res.forbidden({
-                error: true,
-                message: 'You are not permitted to perform this action. : hasValidAppToken'
+        var client = req.param('client') || 'api';
+        var app_token = req.param('app_token') || req.headers.app_token;
+        //console.log("app_token", app_token, req.headers.app_token, client);
+        if (app_token != null) {
+            App.findOne({token: app_token}, function (err, app) {
+                if (err) {
+                    return flash500(req, res, {error: true, message: 'Error Occurred'});
+                } else {
+                    if (app != undefined && app.token == app_token) {
+                        return next();
+                    } else {
+                        return flash403(req, res, {error: true, message: 'Invalid App Token : hasValidAppToken'});
+                    }
+                }
             });
         } else {
-            var error = {error: true, message: 'Access Denied : hasValidAppToken'};
-            return res.clientAwareResponse(client, 'admin/login', error);
+            if (client == 'api') {
+                return flash403(req, res, {
+                    error: true,
+                    message: 'You are not permitted to perform this action. : hasValidAppToken'
+                });
+            } else {
+                var error = {error: true, message: 'Access Denied : hasValidAppToken'};
+                return res.clientAwareResponse(client, 'admin/login', error);
+            }
         }
     }
 };

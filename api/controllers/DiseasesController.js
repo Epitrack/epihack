@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * DiseasesController
  *
@@ -12,8 +13,11 @@ module.exports = {
      */
     index: function (req, res) {
         Disease.find({}).populateAll().exec(function (err, diseases) {
-            if (err) return next(err);
-            res.view('admin/admin_diseases', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/admin_diseases', {
                 diseases: diseases,
                 error: false,
                 page:'admin_diseases'
@@ -29,9 +33,10 @@ module.exports = {
         var params = req.body;
         Disease.create(params).exec(function createCB(err, d) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/diseases', {
                     error: false,
@@ -53,9 +58,10 @@ module.exports = {
             id: disease.id
         }, disease).exec(function afterwards(err, upd) {
             if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             }
             return res.clientAwareResponse(client, '/admin/diseases', {
                 error: false,
@@ -70,7 +76,10 @@ module.exports = {
      */
     list: function (req, res) {
         Disease.find({}).populateAll().exec(function (err, diseases) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: diseases});
         });
     },
@@ -82,7 +91,10 @@ module.exports = {
             params = {id:req.param('disease_id')};
         }
         Disease.find(params).populateAll().exec(function (err, diseases) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: diseases});
         });
     },
@@ -94,12 +106,15 @@ module.exports = {
         Symptom.find({}).exec(function(err, symptoms){
             if (err) return res.serverError(err);
             Disease.findOne(d_id).populateAll().exec(function (err, disease) {
-                if (err) res.serverError(err);
+                if (err) return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
                 var m = [];
                 _.forEach(disease.symptoms, function(s){
                     m.push(s.id);
                 });
-                res.view('admin/disease_edit', {
+                return res.view('admin/disease_edit', {
                     disease: disease,
                     symptoms:symptoms,
                     disease_symptoms: m.join(','),
@@ -119,9 +134,10 @@ module.exports = {
             id: disease_id
         }).exec(function (err) {
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Disease Deleted"});
             }
@@ -133,15 +149,13 @@ module.exports = {
         var disease_id = req.body.disease_id;
         Disease.findOne(disease_id).populateAll().exec(function(err, disease){
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500({error: true, message: 'There was an error processing your request: \n' + err});
             } else {
                 disease.symptoms.add(symptom_id);
                 disease.save(function(err, disease_new){
                     if (err) {
                         console.log(err);
-                        var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
+                        var error = {error: true, message: 'There was an error processing your request: \n' + err};
                         return res.clientAwareResponse(client, '/admin/diseases', error);
                     } else {
                         return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Symptom added to the disease", disease:disease_new});
@@ -156,16 +170,15 @@ module.exports = {
         var disease_id = req.body.disease_id;
         Disease.findOne(disease_id).populateAll().exec(function(err, disease){
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500({error: true, message: 'There was an error processing your request: \n' + err});
             } else {
                 disease.symptoms.remove(symptom_id);
                 disease.save(function(err, disease_new){
                     if (err) {
-                        console.log(err);
-                        var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                        return res.clientAwareResponse(client, '/admin/diseases', error);
+                        return flash500(req, res, {
+                            error: true,
+                            message: 'There was an error processing your request: \n' + err
+                        });
                     } else {
                         return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Symptom removed from disease", disease:disease_new});
                     }
@@ -181,9 +194,10 @@ module.exports = {
         //console.log("symptoms", symptoms, symptoms.length);
         Disease.findOne(disease_id).populateAll().exec(function(err, disease){
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/diseases', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 var removables = [];
                 _.forEach(disease.symptoms, function(item){
@@ -195,9 +209,10 @@ module.exports = {
                     disease_removed_symptoms.symptoms.add(symptoms);
                     disease_removed_symptoms.save(function(err, disease_new){
                         if (err) {
-                            console.log(err);
-                            var error = {error: true, message:'There was an error processing your request: \n' + err};
-                            return res.clientAwareResponse(client, '/admin/diseases', error);
+                            return flash500(req, res, {
+                                error: true,
+                                message: 'There was an error processing your request: \n' + err
+                            });
                         } else {
                             return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Disease's Symptoms Updated", disease:disease_new});
                         }
@@ -207,4 +222,3 @@ module.exports = {
         })
     }
 };
-

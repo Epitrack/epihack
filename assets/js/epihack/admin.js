@@ -54,6 +54,28 @@ $(document).ready(function () {
         $("#locale_list").val(v).attr("selected", "selected");
     }
 
+    $('#ill_date').datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true
+    });
+
+    $('#survey_form').submit(function (e) {
+        var symptoms = [];
+        var survey = $('#survey_form').serializeArray();
+        survey.forEach(function (item) {
+            if (item.name.indexOf("symptom_") >= 0) {
+                symptoms.push(item.value);
+            }
+        });
+        symptoms = symptoms.join(',');
+        console.log('survey', survey);
+        console.log('symptoms', symptoms);
+        $('#survey_symptoms').val(symptoms);
+        $('.item_symptom').remove();
+        survey = $('#survey_form').serializeArray();
+        console.log('survey', survey);
+    });
+
     $('#pickerModal').on('shown.bs.modal', function (e) {
         $('#map_container').locationpicker({
             zoom: 2,

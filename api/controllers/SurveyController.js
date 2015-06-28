@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * SurveyController
  *
@@ -13,9 +14,11 @@ module.exports = {
         var user_id = req.body.user_id;
         var household_id = req.body.household_id;
         var client = req.body.client || 'api';
+        var redirectTo = req.body.redirect_to || '/user';
         delete req.body.client;
+        delete req.body.redirect_to;
         if (!user_id && !household_id) {
-            return res.status(401).send({
+            return res.forbidden({
                 error: true,
                 message: 'user_id or household_id required.'
             });
@@ -31,11 +34,18 @@ module.exports = {
         delete params.household_id;
         Survey.create(params).exec(function createCB(err, survey) {
             if (err) {
-                var error = {error: true, message: JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/surveys', error);
+                var error = {
+                    error: true,
+                    title: 'Validation Error',
+                    message: 'There was an error processing your request: \n' + err
+                };
+                if (err.code == 'E_VALIDATION') {
+                    return res.clientAwareResponse(client, redirectTo, error);
+                } else {
+                    return flash500(req, res, error);
+                }
             } else {
-                return res.clientAwareResponse(client, '/admin/surveys', {
+                return res.clientAwareResponse(client, redirectTo, {
                     error: false,
                     status: true,
                     message: "Survey Created",
@@ -55,7 +65,10 @@ module.exports = {
             params = {id: req.param('survey_id')};
         }
         Survey.find(params).exec(function (err, survey) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: survey});
         });
     },
@@ -69,7 +82,10 @@ module.exports = {
             });
         } else {
             Survey.find({where: {'symptoms': {'!': null, 'contains': symptoms}}}).exec(function (err, survey) {
-                if (err) return next(err);
+                if (err) return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
                 return res.json({error: false, data: survey});
             });
         }
@@ -91,9 +107,9 @@ module.exports = {
 
         Disease.findOne(params).populateAll().exec(function (err, disease) {
             if (err) {
-                return res.status(401).send({
+                return flash500(req, res, {
                     error: true,
-                    message: 'Unknown error: ' + err
+                    message: 'There was an error processing your request: \n' + err
                 });
             } else {
                 if (disease.symptoms.length > 0) {
@@ -105,9 +121,9 @@ module.exports = {
                     //TODO this query only contains symptoms codes. Future work must be done to make it compatible with symptoms' priority and requirement levels
                     Survey.find({where: {'symptoms': {'!': null, 'contains': symptoms}}}).exec(function (err, survey) {
                         if (err) {
-                            return res.status(401).send({
+                            return flash500(req, res, {
                                 error: true,
-                                message: 'Unknown error: ' + err
+                                message: 'There was an error processing your request: \n' + err
                             });
                         }
                         return res.json({error: false, data: survey});

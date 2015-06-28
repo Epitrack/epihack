@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * AdminController
  *
@@ -15,9 +16,10 @@ module.exports = {
         var admin = req.body;
         Admin.create(admin).exec(function createCB(err, b) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin', {error:false, status:true, message:"User Created", user:b});
             }
@@ -28,7 +30,10 @@ module.exports = {
      */
     list:function(req, res) {
         Admin.find({}).exec(function (err, users) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error:false, data:users});
         });
     },
@@ -43,9 +48,10 @@ module.exports = {
             id: admin.id
         }, admin).exec(function afterwards(err, upb) {
             if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             }
             return res.clientAwareResponse(client, '/admin', {error:false, status:true, message:"User Updated", user:upb});
         });
@@ -53,8 +59,11 @@ module.exports = {
     edit: function (req, res) {
         var admin_id = req.param("admin_id");
         Admin.findOne(admin_id).exec(function (err, user) {
-            if (err) return next(err);
-            res.view('admin/admin_edit', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/admin_edit', {
                 user: user,
                 error: false,
                 page:'admin_edit'
@@ -66,8 +75,11 @@ module.exports = {
      */
     index: function (req, res) {
         Admin.find({}).limit(10).exec(function (err, users) {
-            if (err) return next(err);
-            res.view('admin/admin_index', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/admin_index', {
                 users: users,
                 error: false,
                 page:'admin_index'
@@ -81,9 +93,10 @@ module.exports = {
             id: admin_id
         }).exec(function (err, users) {
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin', {status:true, message:"User Deleted"});
             }
@@ -93,15 +106,18 @@ module.exports = {
      * `AdminController.login()`
      */
     login: function (req, res) {
-        res.view('admin/login', {page:'admin_login'});
+        return res.view('admin/login', {page: 'admin_login'});
     },
     /**
      * `AdminController.config()`
      */
     config: function (req, res) {
         App.find({}).exec(function (err, configs) {
-            if (err) return next(err);
-            res.view('admin/admin_config', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/admin_config', {
                 configs: configs,
                 error: false,
                 page:'admin_config'

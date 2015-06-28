@@ -91,28 +91,7 @@
                      role="alert"><strong>Data is empty.</strong> Add a default configuration below</div>
             </div>
             <% } %>
-            <% if (flash && flash.status) { %>
-            <div class="row">
-                <div class="alert alert-info alert-dismissible"
-                     role="alert">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
-            </div>
-            <% } %>
-            <% if (flash && flash.error) { %>
-            <div class="row">
-                <div class="alert alert-warning alert-dismissible"
-                     role="alert">
-                    <button type="button"
-                            class="close"
-                            data-dismiss="alert"
-                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Warning!</strong> <%= flash.message %>
-                </div>
-            </div>
-            <% } %>
+                <%- partial('../partials/flash.ejs') %>
             <div class="row">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -251,19 +230,3 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="pickerModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Pick a location</h4>
-            </div>
-            <div class="modal-body">
-                <div id="map_container" style="width: 560px; height: 400px;"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Ok</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

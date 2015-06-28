@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * HouseholdController
  *
@@ -12,14 +13,17 @@ module.exports = {
     create: function (req, res) {
         var client = req.body.client || 'api';
         delete req.body.client;
+        var redirectTo = req.body.redirect_to || (req.session.UserKind == 'admin' ? '/admin/users' : '/');
+        delete req.body.redirect_to;
         var params = req.body;
         Household.create(params).exec(function createCB(err, hm) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/users', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
-                return res.clientAwareResponse(client, '/admin/users', {
+                return res.clientAwareResponse(client, redirectTo, {
                     error: false,
                     status: true,
                     message: "Household member Created",
@@ -39,7 +43,10 @@ module.exports = {
             params = {user: req.param('user_id')};
         }
         Household.find(params).populateAll().exec(function (err, user) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: user});
         });
     },
@@ -48,7 +55,10 @@ module.exports = {
      */
     list: function (req, res) {
         Household.find({}).exec(function (err, users) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: users});
         });
     },
@@ -63,9 +73,10 @@ module.exports = {
             id: params.id
         }, params).exec(function afterwards(err, upb) {
             if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/users', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             }
             return res.clientAwareResponse(client, '/admin/users', {
                 error: false,
@@ -78,8 +89,11 @@ module.exports = {
     edit: function (req, res) {
         var household_id = req.param("household_id");
         Household.findOne(household_id).exec(function (err, household_member) {
-            if (err) return next(err);
-            res.view('admin/household_edit', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/household_edit', {
                 household_member: household_member,
                 error: false,
                 page:'household_edit'
@@ -92,18 +106,17 @@ module.exports = {
     delete: function (req, res) {
         var household_id = req.param("household_id");
         var client = req.param("client") || 'dashboard';
+        var redirectTo = req.param("redirect_to") || (req.session.UserKind == 'admin' ? '/admin/users' : '/');
         Household.destroy({
             id: household_id
         }).exec(function (err) {
             if (err) {
-                console.log(err);
-                var error = {
+                return flash500(req, res, {
                     error: true,
-                    message: 'There was an error processing your request: \n' + JSON.stringify(err)
-                };
-                return res.clientAwareResponse(client, '/admin/users', error);
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
-                return res.clientAwareResponse(client, '/admin/users', {status: true, message: "User Deleted"});
+                return res.clientAwareResponse(client, redirectTo, {status: true, message: "Household member removed"});
             }
         });
     },

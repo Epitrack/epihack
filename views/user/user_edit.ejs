@@ -24,17 +24,6 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="user_nick">Nickname</label>
-                                        <input type="text"
-                                               name="nick"
-                                               value="<% if(user.nick) { %> <%= user.nick %> <% } %>"
-                                               class="form-control"
-                                               id="user_nick"
-                                               placeholder="Nickname. Optional">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label for="user_email">Email</label>
                                         <input type="email"
                                                name="email"
@@ -54,9 +43,7 @@
                                                placeholder="User Password">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="user_gender">Gender</label>
                                     </div>
@@ -67,7 +54,7 @@
                                                                        name="gender"
                                                                        value="M">Male</label>
                                 </div>
-                                <div class="col-md-3">
+                                 <div class="col-md-4">
                                     <div class="form-group" style="margin-bottom: 0">
                                         <label for="user_gender">Date of Birth</label>
                                     </div>
@@ -101,6 +88,30 @@
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
                                                 aria-expanded="false"><span class="caret"></span></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="user_nick">Nickname</label>
+                                        <input type="text"
+                                               name="nick"
+                                               value="<% if(user.nick) { %> <%= user.nick %> <% } %>"
+                                               class="form-control"
+                                               id="user_nick"
+                                               placeholder="Nickname. Optional">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="user_picture">Picture</label>
+                                        <input type="text"
+                                               name="picture"
+                                               value="<% if(user.picture) { %> <%= user.picture %> <% } %>"
+                                               class="form-control"
+                                               id="user_picture"
+                                               placeholder="URL for the user picture. Optional">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

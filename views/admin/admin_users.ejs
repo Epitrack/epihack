@@ -80,28 +80,7 @@
                          role="alert"><strong>Data is empty.</strong> Add some users below</div>
                 </div>
                 <% } %>
-                <% if (flash && flash.status) { %>
-                <div class="row">
-                    <div class="alert alert-info alert-dismissible"
-                         role="alert">
-                        <button type="button"
-                                class="close"
-                                data-dismiss="alert"
-                                aria-label="Close"><span aria-hidden="true">&times;</span></button><%= flash.message %></div>
-                </div>
-                <% } %>
-                <% if (flash && flash.error) { %>
-                <div class="row">
-                    <div class="alert alert-warning alert-dismissible"
-                         role="alert">
-                        <button type="button"
-                                class="close"
-                                data-dismiss="alert"
-                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Warning!</strong> <%= flash.message %>
-                    </div>
-                </div>
-                <% } %>
+                <%- partial('../partials/flash.ejs') %>
                 <div class="row">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -154,16 +133,6 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="user_nick">Nickname</label>
-                                            <input type="text"
-                                                   name="nick"
-                                                   class="form-control"
-                                                   id="user_nick"
-                                                   placeholder="Nickname. Optional">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
                                             <label for="user_gender">Gender</label>
                                         </div>
                                         <label class="radio-inline"><input type="radio"
@@ -211,6 +180,26 @@
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="false"><span class="caret"></span></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="user_nick">Nickname</label>
+                                            <input type="text"
+                                                   name="nick"
+                                                   class="form-control"
+                                                   id="user_nick"
+                                                   placeholder="Nickname. Optional">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="user_picture">Picture URL</label>
+                                            <input type="text"
+                                                   name="picture"
+                                                   class="form-control"
+                                                   id="user_picture"
+                                                   placeholder="URL for the user picture. Optional">
                                         </div>
                                     </div>
                                 </div>

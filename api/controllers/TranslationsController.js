@@ -1,3 +1,4 @@
+var flash500 = require('../services/flash500');
 /**
  * TranslationsController
  *
@@ -15,9 +16,10 @@ module.exports = {
         var app = req.body;
         Translation.create(app).exec(function createCB(err, b) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/translations', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/translations', {
                     error: false,
@@ -39,7 +41,10 @@ module.exports = {
             params = {id: req.param('translation_id')};
         }
         Translation.find(params).exec(function (err, translations) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: translations});
         });
     },
@@ -48,7 +53,10 @@ module.exports = {
      */
     list: function (req, res) {
         Translation.find({}).exec(function (err, translations) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: translations});
         });
     },
@@ -57,6 +65,10 @@ module.exports = {
      */
     index: function (req, res) {
         Translation.find({}).exec(function(err, translations){
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.view('admin/admin_translations.ejs', {
                 translations:translations,
                 error:false,
@@ -70,8 +82,11 @@ module.exports = {
     edit: function (req, res) {
         var translation_id = req.param("translation_id");
         Translation.findOne(translation_id).exec(function (err, translation) {
-            if (err) return next(err);
-            res.view('admin/translation_edit', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('admin/translation_edit', {
                 translation: translation,
                 error: false,
                 page:'translation_edit'
@@ -88,11 +103,10 @@ module.exports = {
         Translation.update({
             id: translation.id
         }, translation).exec(function afterwards(err, upt) {
-            if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message:JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/translations', error);
-            }
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.clientAwareResponse(client, '/admin/translations',
                 {error:false, status:true, message:"Translation Updated", translation:upt});
         });
@@ -107,10 +121,12 @@ module.exports = {
             id: translation_id
         }).exec(function (err) {
             if (err) {
-                console.log(err);
-                var error = {error: true, message:'There was an error processing your request: \n' + JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/translations', error);
-            } else {
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
+            }
+            else {
                 return res.clientAwareResponse(client, '/admin/translations', {status:true, message:"Translation Deleted"});
             }
         });

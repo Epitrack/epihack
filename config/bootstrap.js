@@ -10,7 +10,7 @@
  */
 
 module.exports.bootstrap = function(cb) {
-    var max_boostraps = 5;
+    var max_boostraps = 6;
     var current_boostrap = 0;
     function single_callback(err){
         current_boostrap++;
@@ -98,6 +98,10 @@ module.exports.bootstrap = function(cb) {
             single_callback(null);
         }
     });
-
+    Survey.native(function (err, collection) {
+        collection.ensureIndex({coordinates: '2dsphere'}, function () {
+            single_callback(null);
+        });
+    });
     //cb();
 };

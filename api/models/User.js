@@ -16,6 +16,7 @@ module.exports = {
         gender: {type: 'string', enum: ['M', 'F'], required:true},
         tw: {type: 'string', required:false},
         fb: {type: 'string', required:false},
+        picture: {type: 'string', required: false},
         surveys: {
             collection: 'Survey',
             via: 'user'
@@ -27,14 +28,19 @@ module.exports = {
         toJSON: function () {
             var obj = this.toObject();
             delete obj.password;
-            delete obj.createdAt;
-            delete obj.updatedAt;
             return obj;
         }
     },
     beforeValidate: function (attr, next) {
         if (attr.password == '') {
             delete attr.password;
+        }
+        if (attr.picture == null || attr.picture == "") {
+            if (attr.gender == 'M') {
+                attr.picture = 'https://cdn3.iconfinder.com/data/icons/softicons/PNG/User-Male.png';
+            } else {
+                attr.picture = 'https://cdn3.iconfinder.com/data/icons/softicons/PNG/User-Female.png';
+            }
         }
         if (attr.dob == null && attr.dob_month != null && attr.dob_year != null) {
             console.log("injecting dob");

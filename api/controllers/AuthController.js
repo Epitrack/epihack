@@ -1,5 +1,7 @@
 var bcrypt = require('bcrypt-nodejs');
 var createAndSendToken = require('../services/createSendToken.js');
+var flash500 = require('../services/flash500');
+var flash403 = require('../services/flash403');
 /**
  * AuthController
  *
@@ -16,7 +18,7 @@ module.exports = {
         var email = req.body.email;
         var password = req.body.password;
         if (!email || !password) {
-            return res.status(401).send({
+            return flash403({
                 message: 'email and password required'
             });
         }
@@ -27,7 +29,7 @@ module.exports = {
             }
             bcrypt.compare(password, foundUser.password, function (err, valid) {
                 if (err) {
-                    error = {error: true, message: 'There was an error processing your request. Try again'};
+                    error = {error: true, message: 'There was an error processing your request: \n' + err};
                     return res.clientAwareResponse(client, 'user/login', error);
                 }
 
@@ -39,9 +41,9 @@ module.exports = {
                 req.session.User = foundUser;
                 req.session.UserKind = 'user';
                 if (client == 'api') {
-                    createAndSendToken(foundUser, res);
+                    return createAndSendToken(foundUser, res);
                 } else {
-                    res.redirect("/user");
+                    return res.redirect("/user");
                 }
             });
         });
@@ -67,7 +69,7 @@ module.exports = {
 
                 bcrypt.compare(password, foundUser.password, function (err, valid) {
                     if (err) {
-                        error = {error: true, message: 'There was an error processing your request. Try again'};
+                        error = {error: true, message: 'There was an error processing your request: \n' + err}
                         return res.clientAwareResponse(client, 'admin/login', error);
                     }
 
@@ -80,9 +82,9 @@ module.exports = {
                     req.session.User = foundUser;
                     req.session.UserKind = 'admin';
                     if (client == 'api') {
-                        createAndSendToken(foundUser, res);
+                        return createAndSendToken(foundUser, res);
                     } else {
-                        res.redirect("/admin/");
+                        return res.redirect("/admin/");
                     }
                 });
 
@@ -96,7 +98,6 @@ module.exports = {
      */
     logout: function (req, res) {
         req.session.destroy();
-        res.redirect('/');
+        return res.redirect('/');
     }
 };
-

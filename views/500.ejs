@@ -70,6 +70,25 @@
           If the problem persists, please <a href="mailto://you@your-domain.com">contact the system administrator</a> and inform them of the time that the error occured, and anything you might have done that may have caused the error.
         </p>
       <% } %>
+          <% if (flash && flash.error || data.error) { %>
+          <div class="row"
+               style="margin-bottom: 10px;margin-top: 30px">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div class="alert alert-danger alert-dismissible"
+                     role="alert">
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong><%= flash.title || data.title || 'Warning!' %></strong> <%= flash.message || data.message %>
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+          <% } %>
 
       </div>
 

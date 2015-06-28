@@ -69,7 +69,7 @@ module.exports = function forbidden (data, options) {
       }
       return res.jsonx(data);
     }
-
+    req.session.flash = {};
     return res.send(html);
   });
 

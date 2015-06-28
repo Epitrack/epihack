@@ -1,5 +1,6 @@
+var flash500 = require('../services/flash500');
 /**
- * UserController
+ - * UserController
  *
  * @description :: Server-side logic for managing Users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
@@ -15,9 +16,10 @@ module.exports = {
         var user = req.body;
         User.create(user).exec(function createCB(err, b) {
             if (err) {
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                console.log(err);
-                return res.clientAwareResponse(client, '/admin/users', error);
+                return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/users', {
                     error: false,
@@ -39,7 +41,10 @@ module.exports = {
             params = {id: req.param('user_id')};
         }
         User.find(params).populateAll().exec(function (err, user) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: user});
         });
     },
@@ -48,7 +53,10 @@ module.exports = {
      */
     list: function (req, res) {
         User.find({}).exec(function (err, users) {
-            if (err) return next(err);
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
             return res.json({error: false, data: users});
         });
     },
@@ -57,17 +65,18 @@ module.exports = {
      */
     update: function (req, res) {
         var client = req.body.client || 'api';
+        var redirectTo = req.session.UserKind == 'admin' ? '/admin/users' : '/user';
+        delete req.body.redirect_to;
         delete req.body.client;
         var user = req.body;
         User.update({
             id: user.id
         }, user).exec(function afterwards(err, upb) {
-            if (err) {
-                console.log(err);
-                var error = {error: 'There was an error processing your request:', message: JSON.stringify(err)};
-                return res.clientAwareResponse(client, '/admin/users', error);
-            }
-            return res.clientAwareResponse(client, '/admin/users', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.clientAwareResponse(client, redirectTo, {
                 error: false,
                 status: true,
                 message: "User Updated",
@@ -78,8 +87,11 @@ module.exports = {
     edit: function (req, res) {
         var user_id = req.param("user_id");
         User.findOne(user_id).exec(function (err, user) {
-            if (err) return next(err);
-            res.view('admin/user_edit', {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('user/user_edit', {
                 user: user,
                 error: false,
                 page:'user_edit'
@@ -96,12 +108,10 @@ module.exports = {
             id: user_id
         }).exec(function (err) {
             if (err) {
-                console.log(err);
-                var error = {
+                return flash500(req, res, {
                     error: true,
-                    message: 'There was an error processing your request: \n' + JSON.stringify(err)
-                };
-                return res.clientAwareResponse(client, '/admin/users', error);
+                    message: 'There was an error processing your request: \n' + err
+                });
             } else {
                 return res.clientAwareResponse(client, '/admin/users', {status: true, message: "User Deleted"});
             }
@@ -113,19 +123,14 @@ module.exports = {
     index: function (req, res) {
         App.find({}).exec(function (err, apps) {
             if (err) {
-                return res.status(500).send({
-                    error: true,
-                    message: 'An error ocurred: ' + err.toString()
-                });
+                return flash500({error: true, message: 'There was an error processing your request: \n' + err});
             }
             User.find({}).populate('app').exec(function (err, users) {
-                if (err) {
-                    return res.status(500).send({
-                        error: true,
-                        message: 'An error ocurred: ' + err.toString()
-                    });
-                }
-                res.view('admin/admin_users', {
+                if (err) return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
+                return res.view('admin/admin_users', {
                     users: users,
                     apps: apps,
                     error: false,
@@ -135,10 +140,39 @@ module.exports = {
         });
     },
     login: function (req, res) {
-        res.view('user/login', {page: 'user_login'});
+        return res.view('user/login', {page: 'user_login'});
     },
     profile: function (req, res) {
-        res.view('user/user_index', {page: 'user_index'});
+        User.findOne(req.session.User.id).populateAll().exec(function (err, user) {
+            console.log("profile", user);
+            return res.view('user/user_profile', {
+                page: 'user_profile',
+                user: user
+            });
+        });
+    },
+    report: function (req, res) {
+        Symptom.find({}).exec(function (err, symptoms) {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            App.find({}).exec(function (err, apps) {
+                if (err) {
+                    return flash500(req, res, {
+                        error: true,
+                        message: 'There was an error processing your request: \n' + err
+                    });
+                } else {
+                    return res.view('user/user_survey', {
+                        symptoms: symptoms,
+                        apps: apps,
+                        error: false,
+                        page: 'user_survey'
+                    });
+                }
+            });
+
+        });
     }
 };
-
