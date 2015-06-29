@@ -40,11 +40,26 @@
                                                     data-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="false"><span class="caret"></span>
-                                                <% for (var i = 0;i < apps.length;i++){ %>
-                                                <option value="<%= apps[i].token %>"><%= apps[i].name %></option>
-                                                <% } %>
+
                                             </select>
                                             <p class="help-block">Select the app for this survey</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="household_list">Household Member</label>
+                                            <select name="household_id"
+                                                    id="household_list"
+                                                    class="form-control dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"><span class="caret"></span>
+                                                <option>Me</option>
+                                                <% for (var i = 0;i < user.household.length;i++){ %>
+                                                <option value="<%= user.household[i].id %>"><%= user.household[i].nick %></option>
+                                                <% } %>
+                                            </select>
+                                            <p class="help-block">Select the target household member</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -111,7 +126,7 @@
                                                            class="item_symptom"
                                                            id="symptom_<%= symptoms[i].id %>"
                                                            value="<%= symptoms[i].code %>"
-                                                           name="symptom_<%= symptoms[i].code %>"><%= symptoms[i].name %>
+                                                           name="symptom_<%= symptoms[i].code %>"> <%= symptoms[i].name %>
                                                 </label>
                                         </li>
                                         <% } %>

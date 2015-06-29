@@ -152,27 +152,30 @@ module.exports = {
         });
     },
     report: function (req, res) {
-        Symptom.find({}).exec(function (err, symptoms) {
-            if (err) return flash500(req, res, {
-                error: true,
-                message: 'There was an error processing your request: \n' + err
-            });
-            App.find({}).exec(function (err, apps) {
-                if (err) {
-                    return flash500(req, res, {
-                        error: true,
-                        message: 'There was an error processing your request: \n' + err
-                    });
-                } else {
-                    return res.view('user/user_survey', {
-                        symptoms: symptoms,
-                        apps: apps,
-                        error: false,
-                        page: 'user_survey'
-                    });
-                }
-            });
+        User.findOne(req.session.User.id).populateAll().exec(function (err, user) {
+            Symptom.find({}).exec(function (err, symptoms) {
+                if (err) return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
+                App.find({}).exec(function (err, apps) {
+                    if (err) {
+                        return flash500(req, res, {
+                            error: true,
+                            message: 'There was an error processing your request: \n' + err
+                        });
+                    } else {
+                        return res.view('user/user_survey', {
+                            symptoms: symptoms,
+                            apps: apps,
+                            error: false,
+                            user: user,
+                            page: 'user_survey'
+                        });
+                    }
+                });
 
+            });
         });
     }
 };
