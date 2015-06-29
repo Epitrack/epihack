@@ -24,7 +24,7 @@ module.exports = function (req, res, next) {
                     if (app != undefined && app.token == app_token) {
                         return next();
                     } else {
-                        return flash403(req, res, {error: true, message: 'Invalid App Token : hasValidAppToken'});
+                        return flash403(req, res, {error: true, message: 'Invalid App Token : hasValidAppToken 1'});
                     }
                 }
             });
@@ -32,7 +32,7 @@ module.exports = function (req, res, next) {
             if (client == 'api') {
                 return flash403(req, res, {
                     error: true,
-                    message: 'You are not permitted to perform this action. : hasValidAppToken'
+                    message: 'You are not permitted to perform this action. : hasValidAppToken 2'
                 });
             } else {
                 var error = {error: true, message: 'Access Denied : hasValidAppToken'};

@@ -75,6 +75,7 @@ module.exports.routes = {
     'POST /diseases/symptoms': 'DiseasesController.symptoms',
     'POST /diseases/symptoms/add': 'DiseasesController.symptoms_add',
     'POST /diseases/symptoms/remove': 'DiseasesController.symptoms_remove',
+
     'GET /diseases/edit/:disease_id': 'DiseasesController.edit',
     'GET /diseases/delete/:disease_id': 'DiseasesController.delete',
 
@@ -85,6 +86,9 @@ module.exports.routes = {
     'GET /symptoms': 'SymptomsController.list',
     'GET /symptoms/delete/:symptom_id': 'SymptomsController.delete',
     'GET /symptoms/edit/:symptom_id': 'SymptomsController.edit',
+
+    'POST /user/create': 'UserController.create',
+    'POST /user/update': 'UserController.update',
 
     'GET /users': 'UserController.list',
     'GET /user/login': 'UserController.login',

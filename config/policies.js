@@ -30,13 +30,13 @@ module.exports.policies = {
         '*': ['flash', 'sessionAuth', 'isAdmin'],
         'list': ['flash', 'hasValidAppToken'],
         'get': ['flash', 'hasValidAppToken']
-    },
+        },
     UserController: {
         'login': 'flash',
         '*':['flash','sessionAuth'],
         'create': ['flash', 'hasValidAppToken'],
         'read': ['flash', 'hasValidAppToken'],
-        'list': ['flash', 'isAdmin'],
+        'list': ['flash', 'hasValidAppToken', 'isAdmin'],
         'update': ['flash', 'sessionAuth', 'isOwnerOrAdmin'],
         'profile': ['flash', 'sessionAuth', 'isUser'],
         'report': ['flash', 'sessionAuth', 'isUser'],
@@ -44,7 +44,7 @@ module.exports.policies = {
         'index': ['flash', 'sessionAuth', 'isAdmin']
     },
     SymptomsController: {
-        '*': ['flash', 'sessionAuth', 'isAdmin'],
+        'create': ['flash', 'sessionAuth', 'isAdmin'],
         'read': ['flash', 'hasValidAppToken'],
         'list': ['flash', 'hasValidAppToken'],
         'edit': ['flash', 'sessionAuth', 'isAdmin'],
@@ -63,9 +63,8 @@ module.exports.policies = {
         'read': ['flash', 'hasValidAppToken'],
         'list': ['flash', 'hasValidAppToken']
     }
-
-    /***************************************************************************
-     *                                                                          *
+/***************************************************************************
+ *                                                                       *
   * Default policy for all controllers and actions (`true` allows public     *
   * access)                                                                  *
   *                                                                          *
