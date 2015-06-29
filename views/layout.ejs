@@ -70,7 +70,7 @@
     -->
 
          <!--TEMPLATES-->
-         
+
          <!--TEMPLATES END-->
 
 
@@ -112,7 +112,7 @@
            e.preventDefault();
            $("#wrapper").toggleClass("toggled");
        });
-       var page = '<%typeof (page) != 'undefined' ? page : ''%>';
+       var page = '<%=typeof page == 'undefined' ? 'unknown' : page%>';
    </script>
    <div class="modal fade"
         id="pickerModal">

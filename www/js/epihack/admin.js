@@ -98,7 +98,12 @@ $(document).ready(function () {
         $('#user_dob_year').append('<option value="'+i+'">'+i+'</option>');
     }
 
+    console.log("page is", page);
     if(page=='user_edit') {
+        console.log("dd");
+        console.log("y", dob_year);
+        console.log("m", dob_month);
+        console.log("p", page);
         $('#user_dob_month').val(dob_month);
         $('#user_dob_year').val(dob_year);
     }
