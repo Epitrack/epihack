@@ -2,49 +2,124 @@
     <div class="row"
          style="padding: 0;margin: 0">
         <div class="col-md-2 sidebar">
-            <%- partial('sidebar.ejs') %>
+            <%- partial('../admin/sidebar.ejs') %>
         </div>
         <div class="col-md-10">
             <div style="margin-left: 50px;margin-right: 50px">
+                <h1 class="page-header">Manage Users</h1>
+                <% if (users.length > 0) { %>
                 <div class="row">
-                    <h1 class="page-header">Edit User</h1>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary filterable">
                         <div class="panel-heading">
-                            <h1 class="panel-title">User</h1>
+                            <h1 class="panel-title">Users</h1>
+                            <div class="pull-right">
+                                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                            </div>
                         </div>
                         <div class="panel-body">
-                            <form action="/user/update"
+                            <table class="table">
+                                <thead>
+                                <tr class="filters">
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="#"
+                                               disabled></th>
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="E-mail"
+                                               disabled></th>
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="Nickname"
+                                               disabled></th>
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="Gender"
+                                               disabled></th>
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="DoB"
+                                               disabled></th>
+                                    <th><input type="text"
+                                               class="form-control"
+                                               placeholder="App"
+                                               disabled></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for(var i = 0; i < users.length; i++) { %>
+                                <tr>
+                                    <td><%= users[i].id %></td>
+                                    <td><a href="mailto:<%= users[i].email %>"><%= users[i].email %></a> </td>
+                                    <td>
+                                        <% if(users[i].nick) { %>
+                                        <%= users[i].nick %>
+                                        <% } %>
+                                    </td>
+                                    <td><%= users[i].gender %></td>
+                                    <td><%= users[i].dob %></td>
+                                    <td><%= users[i].app.name %></td>
+                                    <td width="110">
+                                        <a href="user/edit/<%= users[i].id %>"
+                                           title="Edit"
+                                           class="btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="user/delete/<%= users[i].id %>"
+                                           title="delete"
+                                           class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="row">
+                    <div class="alert alert-info"
+                         role="alert"><strong>Data is empty.</strong> Add some users below</div>
+                </div>
+                <% } %>
+                <%- partial('../partials/flash.ejs') %>
+                <div class="row">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Add User</h1>
+                        </div>
+                        <div class="panel-body">
+                            <form action="/user/create"
                                   method="post">
                                 <input type="hidden"
                                        name="client"
                                        value="dashboard">
-                                <input type="hidden"
-                                       name="id"
-                                       value="<%= user.id %>">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="user_nick">Nickname</label>
-                                            <input type="text"
-                                                   name="nick"
-                                                   value="<%= user.nick %>"
-                                                   class="form-control"
-                                                   id="user_nick"
-                                                   placeholder="Nickname. Optional">
+                                            <label for="app_list">App Token</label>
+                                            <select name="app_token"
+                                                    id="app_list"
+                                                    class="form-control dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"><span class="caret"></span>
+                                                <% for (var i = 0;i < apps.length;i++){ %>
+                                                <option value="<%= apps[i].token %>"><%= apps[i].name %></option>
+                                                <% } %>
+                                            </select>
+                                            <p class="help-block">Select the app for this user</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="user_email">Email</label>
                                             <input type="email"
                                                    name="email"
-                                                   value="<%= user.email %>"
                                                    class="form-control"
                                                    id="user_email"
                                                    placeholder="User E-mail">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="user_password">Password</label>
                                             <input type="password"
@@ -107,7 +182,29 @@
                                                     aria-expanded="false"><span class="caret"></span></select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="user_nick">Nickname</label>
+                                            <input type="text"
+                                                   name="nick"
+                                                   class="form-control"
+                                                   id="user_nick"
+                                                   placeholder="Nickname. Optional">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="user_picture">Picture URL</label>
+                                            <input type="text"
+                                                   name="picture"
+                                                   class="form-control"
+                                                   id="user_picture"
+                                                   placeholder="URL for the user picture. Optional">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="form-group col-md-6"
                                              style="margin-top:0;padding-top:0;margin-left: 0;padding-left: 0">
                                             <label for="user_twitter">Twitter</label>
@@ -116,6 +213,7 @@
                                                    class="form-control"
                                                    id="user_twitter"
                                                    placeholder="Twitter. Optional">
+                                            <p class="help-block">The Twitter user_id for this User</p>
                                         </div>
                                         <div class="form-group col-md-6"
                                              style="padding-right: 0">
@@ -125,6 +223,7 @@
                                                    class="form-control"
                                                    id="user_facebook"
                                                    placeholder="Facebook. Optional">
+                                            <p class="help-block">The Facebook user_id for this User</p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +243,3 @@
         </div>
     </div>
 </div>
-<script>
-    var dob_month = '<%=user.dob.split('/')[0]%>';
-    var dob_year = '<%=user.dob.split('/')[1]%>';
-</script>

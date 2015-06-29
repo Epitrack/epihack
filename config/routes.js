@@ -51,19 +51,23 @@ module.exports.routes = {
      ***************************************************************************/
 
     'GET /logout': 'AuthController.logout',
-    'GET /admin': 'AdminController.index',
     'GET /admin/login': 'AdminController.login',
+    'GET /admin/list': 'AdminController.list',
     'GET /admin/edit/:admin_id': 'AdminController.edit',
     'GET /admin/delete/:admin_id': 'AdminController.delete',
 
-    'GET /admin/diseases': 'DiseasesController.index',
-    'GET /admin/symptoms': 'SymptomsController.index',
+    'GET /admin': 'AdminController.index',
+    'GET /admin/apps': 'AppController.index',
     'GET /admin/users': 'UserController.index',
+    'GET /admin/symptoms': 'SymptomsController.index',
+    'GET /admin/diseases': 'DiseasesController.index',
+    'GET /admin/surveys': 'SurveyController.index',
+    'GET /admin/translations': 'TranslationsController.index',
 
     'POST /admin/login': 'AuthController.loginAdmin',
     'POST /admin/create': 'AdminController.create',
-
     'POST /app/create': 'AppController.create',
+
     'GET /app/default/:app_id': 'AppController.default',
     'GET /app/edit/:app_id': 'AppController.edit',
     'GET /app/delete/:app_id': 'AppController.delete',
@@ -119,7 +123,6 @@ module.exports.routes = {
     'GET /surveys/s': 'SurveyController.getBySymptom',
     'GET /surveys/d': 'SurveyController.getByDisease',
 
-    'GET /admin/translations': 'TranslationsController.index',
     'GET /translations/edit/:translation_id': 'TranslationsController.edit',
     'GET /translations/key/:key': 'TranslationsController.read',
     'GET /translations/:translation_id': 'TranslationsController.read',

@@ -6,13 +6,13 @@
                 Admin
             </a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'admin', 'index') ? 'active' : 'item' %>">
+        <li class="<%= Helper.isCurrentPage(req, 'admin', null) ? 'active' : 'item' %>">
             <a href="/admin">Manage Admins</a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'admin', 'config') ? 'active' : 'item' %>">
-            <a href="/admin/config">App configuration</a>
+        <li class="<%= Helper.isCurrentPage(req, 'app', null) ? 'active' : 'item' %>">
+            <a href="/admin/apps">App configuration</a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'user', 'index') ? 'active' : 'item' %>">
+        <li class="<%= Helper.isCurrentPage(req, 'user', null) ? 'active' : 'item' %>">
             <a href="/admin/users">Manage Users</a>
         </li>
         <li class="<%= Helper.isCurrentPage(req, 'diseases', null) ? 'active' : 'item' %>">
@@ -24,7 +24,7 @@
         <li class="<%= Helper.isCurrentPage(req, 'translations', 'index') ? 'active' : 'item' %>">
             <a href="/admin/translations">Manage Translations</a>
         </li>
-        <li class="<%= Helper.isCurrentPage(req, 'admin', 'surveys') ? 'active' : 'item' %>">
+        <li class="<%= Helper.isCurrentPage(req, 'surveys', 'index') ? 'active' : 'item' %>">
             <a href="/admin/surveys">Query Surveys</a>
         </li>
     </ul>

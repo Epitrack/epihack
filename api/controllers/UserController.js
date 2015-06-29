@@ -130,11 +130,11 @@ module.exports = {
                     error: true,
                     message: 'There was an error processing your request: \n' + err
                 });
-                return res.view('admin/admin_users', {
+                return res.view('user/user_index', {
                     users: users,
                     apps: apps,
                     error: false,
-                    page: 'admin_users'
+                    page: 'user_index'
                 });
             });
         });

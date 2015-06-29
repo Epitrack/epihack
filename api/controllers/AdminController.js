@@ -107,28 +107,6 @@ module.exports = {
      */
     login: function (req, res) {
         return res.view('admin/login', {page: 'admin_login'});
-    },
-    /**
-     * `AdminController.config()`
-     */
-    config: function (req, res) {
-        App.find({}).exec(function (err, configs) {
-            if (err) return flash500(req, res, {
-                error: true,
-                message: 'There was an error processing your request: \n' + err
-            });
-            return res.view('admin/admin_config', {
-                configs: configs,
-                error: false,
-                page:'admin_config'
-            });
-        });
-    },
-    /**
-     * `AdminController.surveys()`
-     */
-    surveys: function (req, res) {
-        return res.view('admin/admin_surveys.ejs', {error:false, page:'admin_surveys'});
     }
 };
 

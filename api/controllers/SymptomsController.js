@@ -16,10 +16,10 @@ module.exports = {
                 error: 'There was an error processing your request:',
                 message: JSON.stringify(err)
             });
-            return res.view('admin/admin_symptoms', {
+            return res.view('symptoms/symptom_index', {
                 symptoms: symptoms,
                 error: false,
-                page:'admin_symptoms'
+                page:'symptom_index'
             });
         });
     },
@@ -28,7 +28,7 @@ module.exports = {
      */
     create: function (req, res) {
         var client = req.body.client || 'api';
-        var redirectTo = req.body.redirect_to || 'admin/diseases';
+        var redirectTo = req.body.redirect_to || '/diseases';
         delete req.body.client;
         var params = req.body;
         Symptom.create(params).exec(function createCB(err, c) {
@@ -127,7 +127,7 @@ module.exports = {
                 error: 'There was an error processing your request:',
                 message: JSON.stringify(err)
             });
-            return res.view('admin/symptom_edit', {
+            return res.view('symptoms/symptom_edit', {
                 symptom: symptom,
                 error: false,
                 page: 'symptom_edit'

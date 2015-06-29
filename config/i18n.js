@@ -38,7 +38,7 @@ module.exports.i18n = {
 
   /****************************************************************************
   *                                                                           *
-  * Automatically add new keys to locale (translation) files when they are    *
+  * Automatically add new keys to locale (translations) files when they are    *
   * encountered during a request?                                             *
   *                                                                           *
   ****************************************************************************/
@@ -47,7 +47,7 @@ module.exports.i18n = {
 
   /****************************************************************************
   *                                                                           *
-  * Path (relative to app root) of directory to store locale (translation)    *
+  * Path (relative to app root) of directory to store locale (translations)    *
   * files in.                                                                 *
   *                                                                           *
   ****************************************************************************/

@@ -17,10 +17,10 @@ module.exports = {
                 error: true,
                 message: 'There was an error processing your request: \n' + err
             });
-            return res.view('admin/admin_diseases', {
+            return res.view('diseases/disease_index', {
                 diseases: diseases,
                 error: false,
-                page:'admin_diseases'
+                page:'disease_index'
             });
         });
     },
@@ -38,7 +38,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/admin/diseases', {
+                return res.clientAwareResponse(client, '/diseases/index', {
                     error: false,
                     status: true,
                     message: "Disease Created",
@@ -63,7 +63,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             }
-            return res.clientAwareResponse(client, '/admin/diseases', {
+            return res.clientAwareResponse(client, '/diseases/index', {
                 error: false,
                 status: true,
                 message: "Disease Updated",
@@ -114,7 +114,7 @@ module.exports = {
                 _.forEach(disease.symptoms, function(s){
                     m.push(s.id);
                 });
-                return res.view('admin/disease_edit', {
+                return res.view('diseases/disease_edit', {
                     disease: disease,
                     symptoms:symptoms,
                     disease_symptoms: m.join(','),
@@ -139,7 +139,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Disease Deleted"});
+                return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Disease Deleted"});
             }
         });
     },
@@ -156,9 +156,9 @@ module.exports = {
                     if (err) {
                         console.log(err);
                         var error = {error: true, message: 'There was an error processing your request: \n' + err};
-                        return res.clientAwareResponse(client, '/admin/diseases', error);
+                        return res.clientAwareResponse(client, '/diseases/index', error);
                     } else {
-                        return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Symptom added to the disease", disease:disease_new});
+                        return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Symptom added to the disease", disease:disease_new});
                     }
                 });
             }
@@ -180,7 +180,7 @@ module.exports = {
                             message: 'There was an error processing your request: \n' + err
                         });
                     } else {
-                        return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Symptom removed from disease", disease:disease_new});
+                        return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Symptom removed from disease", disease:disease_new});
                     }
                 });
             }
@@ -214,7 +214,7 @@ module.exports = {
                                 message: 'There was an error processing your request: \n' + err
                             });
                         } else {
-                            return res.clientAwareResponse(client, '/admin/diseases', {status:true, message:"Disease's Symptoms Updated", disease:disease_new});
+                            return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Disease's Symptoms Updated", disease:disease_new});
                         }
                     });
                 });

@@ -69,10 +69,10 @@ module.exports = {
                 error: true,
                 message: 'There was an error processing your request: \n' + err
             });
-            return res.view('admin/admin_translations.ejs', {
+            return res.view('translations/translation_index.ejs', {
                 translations:translations,
                 error:false,
-                page:"admin_translations"
+                page:"translation_index"
             });
         });
     },
@@ -86,7 +86,7 @@ module.exports = {
                 error: true,
                 message: 'There was an error processing your request: \n' + err
             });
-            return res.view('admin/translation_edit', {
+            return res.view('translations/translation_edit', {
                 translation: translation,
                 error: false,
                 page:'translation_edit'
@@ -107,7 +107,7 @@ module.exports = {
                 error: true,
                 message: 'There was an error processing your request: \n' + err
             });
-            return res.clientAwareResponse(client, '/admin/translations',
+            return res.clientAwareResponse(client, '/translations',
                 {error:false, status:true, message:"Translation Updated", translation:upt});
         });
     },

@@ -7,6 +7,9 @@ var flash500 = require('../services/flash500');
  */
 
 module.exports = {
+    index: function (req, res) {
+        return res.view('admin/admin_surveys.ejs', {error:false, page:'admin_surveys'});
+    },
     /**
      * `SurveyController.create()`
      */

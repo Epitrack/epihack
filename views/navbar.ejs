@@ -17,7 +17,7 @@
            style="margin: 0;padding: 0;padding-top: 5px"
            href="#">
             <img src="images/epihack-png-300x60.png"
-                 height="50">
+                 height="45">
         </a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,7 +36,7 @@
                 <a href="/admin">Dashboard</a>
             </li>
             <% } else { %>
-            <li class="<%= Helper.isCurrentPage(req, 'user', null) ? 'active' : 'item' %>">
+            <li class="<%= Helper.isCurrentPage(req, 'user', 'profile') ? 'active' : 'item' %>">
                 <a href="/user">User Profile</a>
             </li>
             <% } %>

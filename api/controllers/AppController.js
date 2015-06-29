@@ -7,6 +7,19 @@ var flash500 = require('../services/flash500');
  */
 
 module.exports = {
+    index: function (req, res) {
+        App.find({}).exec(function (err, configs) {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.view('app/app_index', {
+                configs: configs,
+                error: false,
+                page:'app_config'
+            });
+        });
+    },
     create:function(req, res) {
         var client = req.body.client || 'api';
         delete req.body.client;
@@ -59,7 +72,7 @@ module.exports = {
                 error: true,
                 message: 'There was an error processing your request: \n' + err
             });
-            return res.view('admin/app_edit', {
+            return res.view('app/app_edit', {
                 app: app,
                 error: false,
                 page:'app_edit'
@@ -81,7 +94,7 @@ module.exports = {
                         message: 'There was an error processing your request: \n' + err
                     });
                 } else {
-                    return res.clientAwareResponse('dashboard', '/admin/config', {error:false, status:true, message:"Configuration Updated", app:c});
+                    return res.clientAwareResponse('dashboard', '/apps', {error:false, status:true, message:"Configuration Updated", app:c});
                 }
             });
         });
@@ -99,7 +112,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             }
-            return res.clientAwareResponse(client, '/admin/config',
+            return res.clientAwareResponse(client, '/apps',
                 {error:false, status:true, message:"Configuration Updated", config:upb});
         });
     },
@@ -115,7 +128,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/admin/config', {status:true, message:"Configuration Deleted"});
+                return res.clientAwareResponse(client, '/apps', {status:true, message:"Configuration Deleted"});
             }
         });
     }

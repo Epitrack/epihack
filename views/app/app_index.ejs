@@ -1,35 +1,114 @@
-<div style="margin-top: 60px">
+<div
+     style="margin-top: 60px">
     <div class="row"
          style="padding: 0;margin: 0">
         <div class="col-md-2 sidebar">
-            <%- partial('sidebar.ejs') %>
+            <%- partial('../admin/sidebar.ejs') %>
         </div>
         <div class="col-md-10">
             <div style="margin-left: 50px;margin-right: 50px">
-                <h1 class="page-header">Edit Configuration</h1>
-                <div class="panel panel-primary">
+            <h1 class="page-header">Manage Configurations</h1>
+            <blockquote>
+                <p>The platform supports multiple app configurations. Each app creates a separate environment for users and surveys. This data is sandboxed for displaying map results, but can be combined for research purposes.</p>
+                <footer>For more information on app configurations, check out the <a href="docs/config">docs</a>.</footer>
+            </blockquote>
+            <% if (configs.length > 0) { %>
+            <div class="row">
+                <div class="panel panel-primary filterable">
                     <div class="panel-heading">
-                        <h1 class="panel-title">App Configuration</h1>
+                        <h1 class="panel-title">Available Configurations</h1>
+                        <div class="pull-right">
+                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                        </div>
                     </div>
                     <div class="panel-body">
-                        <input type="hidden"
-                               id="app_language"
-                               value="<%=app.language%>">
-                        <form action="/app/update"
+                        <table class="table">
+                            <thead>
+                            <tr class="filters">
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="#"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Name"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="URL"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Location"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Locale"
+                                           disabled></th>
+                                <th><input type="text"
+                                           class="form-control"
+                                           placeholder="Default"
+                                           disabled></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i = 0; i < configs.length; i++) { %>
+                            <tr>
+                                <td><%= configs[i].id %></td>
+                                <td><%= configs[i].name %></td>
+                                <td><a href="<%= configs[i].url %>"><%= configs[i].url %></a></td>
+                                <td><%= configs[i].location %></td>
+                                <td><%= configs[i].language %></td>
+                                <td class="<%= configs[i].default ? 'text-success' : 'text-default' %>"
+                                    width="80px">
+                                    <i class="glyphicon <%= configs[i].default ? 'glyphicon-star text-success' : 'glyphicon-star-empty text-default' %>"
+                                       aria-hidden="true"></i>
+                                    <span><%= configs[i].default ? 'YES' : 'NO' %></span>
+                                </td>
+                                <td width="150">
+                                    <a href="app/edit/<%= configs[i].id %>"
+                                       title="Edit"
+                                       class="btn btn-info btn-sm"><i class="glyphicon glyphicon-edit"></i></a>
+                                    <a href="app/delete/<%= configs[i].id %>"
+                                       title="Delete"
+                                       class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                                    <a href="app/default/<%= configs[i].id %>"
+                                       title="Make Default"
+                                       class="btn btn-success btn-sm <%= configs[i].default ? 'disabled' : '' %>">
+                                        <i class="glyphicon glyphicon-star"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="row">
+                <div class="alert alert-info"
+                     role="alert"><strong>Data is empty.</strong> Add a default configuration below</div>
+            </div>
+            <% } %>
+                <%- partial('../partials/flash.ejs') %>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Add configuration</h1>
+                    </div>
+                    <div class="panel-body">
+                        <form action="/app/create"
                               method="post">
                             <input type="hidden"
                                    name="client"
                                    value="dashboard">
-                            <input type="hidden"
-                                   name="id"
-                                   value="<%=app.id%>">
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="app_name">Name</label>
                                         <input type="text"
                                                name="name"
-                                               value="<%=app.name%>"
                                                class="form-control"
                                                id="app_name"
                                                placeholder="App Name">
@@ -40,7 +119,6 @@
                                         <label for="app_url">URL</label>
                                         <input type="text"
                                                name="url"
-                                               value="<%=app.url%>"
                                                class="form-control"
                                                id="app_url"
                                                placeholder="Default URL for the app">
@@ -66,32 +144,36 @@
                                         <input type="text"
                                                name="location"
                                                class="form-control"
-                                               value="<%=app.location%>"
                                                id="app_location"
                                                placeholder="Readable Default Location for the app">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="app_latitude">Latitude</label>
                                         <input type="tel"
                                                name="latitude"
                                                class="form-control"
-                                               value="<%=app.latitude%>"
                                                id="app_latitude"
                                                placeholder="Latitude for the center of the map">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="app_longitude">Longitude</label>
                                         <input type="tel"
                                                name="longitude"
-                                               value="<%=app.longitude%>"
                                                class="form-control"
                                                id="app_longitude"
                                                placeholder="Longitude for the center of the map">
                                     </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            style="margin-top: 30px"
+                                            id="location_picker"
+                                            data-toggle="modal" data-target="#pickerModal"
+                                            class="btn btn-info btn-sm btn-block">Pick a location</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -101,14 +183,14 @@
                                         <input type="text"
                                                name="token"
                                                class="form-control"
-                                               value="<%=app.token%>"
                                                id="app_token"
                                                placeholder="Security token for API operations">
                                         <p class="help-block">Client token to protect API operations. All non-public API endpoints must send this token in the header of the request</p>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" style="margin-top: 30px"
+                                    <button type="button"
+                                            style="margin-top: 30px"
                                             id="generate_token_hash"
                                             class="btn btn-info btn-sm btn-block">Generate Hash</button>
                                 </div>
@@ -120,14 +202,14 @@
                                         <input type="text"
                                                name="secret"
                                                class="form-control"
-                                               value="<%=app.secret%>"
                                                id="app_secret"
                                                placeholder="Security secret used as salt for password encryption">
                                         <p class="help-block">This secret is used when encrypting new user's passwords</p>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" style="margin-top: 30px"
+                                    <button type="button"
+                                            style="margin-top: 30px"
                                             id="generate_secret_hash"
                                             class="btn btn-info btn-sm btn-block">Generate Hash</button>
                                 </div>
@@ -143,6 +225,7 @@
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
