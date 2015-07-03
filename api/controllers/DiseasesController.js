@@ -38,7 +38,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/diseases/index', {
+                return res.clientAwareResponse(client, '/admin/diseases', {
                     error: false,
                     status: true,
                     message: "Disease Created",
@@ -63,7 +63,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             }
-            return res.clientAwareResponse(client, '/diseases/index', {
+            return res.clientAwareResponse(client, '/admin/diseases', {
                 error: false,
                 status: true,
                 message: "Disease Updated",
@@ -139,7 +139,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Disease Deleted"});
+                return res.clientAwareResponse(client, '/admin/diseases', {status: true, message: "Disease Deleted"});
             }
         });
     },
@@ -158,7 +158,11 @@ module.exports = {
                         var error = {error: true, message: 'There was an error processing your request: \n' + err};
                         return res.clientAwareResponse(client, '/diseases/index', error);
                     } else {
-                        return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Symptom added to the disease", disease:disease_new});
+                        return res.clientAwareResponse(client, '/admin/diseases', {
+                            status: true,
+                            message: "Symptom added to the disease",
+                            disease: disease_new
+                        });
                     }
                 });
             }
@@ -180,7 +184,11 @@ module.exports = {
                             message: 'There was an error processing your request: \n' + err
                         });
                     } else {
-                        return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Symptom removed from disease", disease:disease_new});
+                        return res.clientAwareResponse(client, '/admin/diseases', {
+                            status: true,
+                            message: "Symptom removed from disease",
+                            disease: disease_new
+                        });
                     }
                 });
             }
@@ -214,7 +222,11 @@ module.exports = {
                                 message: 'There was an error processing your request: \n' + err
                             });
                         } else {
-                            return res.clientAwareResponse(client, '/diseases/index', {status:true, message:"Disease's Symptoms Updated", disease:disease_new});
+                            return res.clientAwareResponse(client, '/admin/diseases', {
+                                status: true,
+                                message: "Disease's Symptoms Updated",
+                                disease: disease_new
+                            });
                         }
                     });
                 });

@@ -81,10 +81,13 @@ module.exports.routes = {
     'GET /app/list': 'AppController.list',
     'GET /app/:app_id': 'AppController.read',
 
+    'POST /diseases/create': 'DiseasesController.create',
     'POST /diseases/symptoms': 'DiseasesController.symptoms',
     'POST /diseases/symptoms/add': 'DiseasesController.symptoms_add',
     'POST /diseases/symptoms/remove': 'DiseasesController.symptoms_remove',
 
+    'GET /diseases/get': 'DiseasesController.get',
+    'GET /diseases/list': 'DiseasesController.list',
     'GET /diseases/edit/:disease_id': 'DiseasesController.edit',
     'GET /diseases/delete/:disease_id': 'DiseasesController.delete',
 

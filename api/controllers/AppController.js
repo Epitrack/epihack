@@ -112,7 +112,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             }
-            return res.clientAwareResponse(client, '/apps',
+            return res.clientAwareResponse(client, '/admin/apps',
                 {error:false, status:true, message:"Configuration Updated", config:upb});
         });
     },
