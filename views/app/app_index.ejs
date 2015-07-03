@@ -58,7 +58,7 @@
                                 <td><%= configs[i].name %></td>
                                 <td><a href="<%= configs[i].url %>"><%= configs[i].url %></a></td>
                                 <td><%= configs[i].location %></td>
-                                <td><%= configs[i].language %></td>
+                                <td><%= configs[i].locale %></td>
                                 <td class="<%= configs[i].default ? 'text-success' : 'text-default' %>"
                                     width="80px">
                                     <i class="glyphicon <%= configs[i].default ? 'glyphicon-star text-success' : 'glyphicon-star-empty text-default' %>"
@@ -127,7 +127,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="locale_list">Default Locale</label>
-                                        <select name="language"
+                                        <select name="locale"
                                                 id="locale_list"
                                                 class="form-control dropdown-toggle"
                                                 data-toggle="dropdown"

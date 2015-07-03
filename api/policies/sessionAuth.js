@@ -1,4 +1,5 @@
 var findUserByToken = require('../services/findUserByToken');
+var findAdminByToken = require('../services/findAdminByToken');
 var flash403 = require('../services/flash403');
 /**
  * sessionAuth
@@ -15,21 +16,34 @@ module.exports = function (req, res, next) {
     if (req.session.authenticated) {
         return next();
     } else {
-        if (req.header('user_token') != null) {
-            var user_token = req.header('user_token');
-            findUserByToken(user_token, function (result) {
-                if (result) {
-                    return next();
-                } else {
-                    return flash403(req, res, {error: true, message: 'invalid user_token : sessionAuth'});
-                }
-            });
+        if (req.header('user_token') != null || req.header('admin_token') != null) {
+            var user_token = req.header('user_token') || req.header('admin_token');
+            if(user_token == req.header('user_token')) {
+                findUserByToken(user_token, function (result) {
+                    if (result) {
+                        console.log('findUserByToken', result);
+                        return next();
+                    } else {
+                        return flash403(req, res, {error: true, message: 'invalid user_token : sessionAuth'});
+                    }
+                });
+            } else {
+                console.log("request is from admin");
+                findAdminByToken(user_token, function (result) {
+                    if (result) {
+                        console.log('findAdminByToken', result);
+                        return next();
+                    } else {
+                        return flash403(req, res, {error: true, message: 'invalid admin_token : sessionAuth'});
+                    }
+                });
+            }
         } else {
             // User is not allowed
             //console.log('User is not allowed');
             var client = req.param('client') || 'dashboard';
             if(req.xhr) {
-                return flash403(req, res, {error: true, message: 'Not Authorized : isAdmin'});
+                return flash403(req, res, {error: true, message: 'Not Authorized : sessionAuth'});
             } else {
                 var error = {error: true, message: 'Access Denied : sessionAuth'};
                 console.log("URL", req.url);

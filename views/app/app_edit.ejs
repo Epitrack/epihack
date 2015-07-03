@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <input type="hidden"
                                id="app_language"
-                               value="<%=app.language%>">
+                               value="<%=app.locale%>">
                         <form action="/app/update"
                               method="post">
                             <input type="hidden"
@@ -49,7 +49,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="locale_list">Default Locale</label>
-                                        <select name="language"
+                                        <select name="locale"
                                                 id="locale_list"
                                                 class="form-control dropdown-toggle"
                                                 data-toggle="dropdown"

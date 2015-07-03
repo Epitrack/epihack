@@ -25,6 +25,21 @@ module.exports = {
             }
         });
     },
+    read: function (req, res) {
+        var params = {};
+        if (req.param('email') != null) {
+            params = {email: req.param('email')};
+        } else if (req.param('admin_id') != null) {
+            params = {id: req.param('admin_id')};
+        }
+        Admin.find(params).populateAll().exec(function (err, user) {
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            return res.json({error: false, data: user});
+        });
+    },
     /**
      * `AdminController.list()`
      */
@@ -88,7 +103,7 @@ module.exports = {
     },
     delete: function (req, res) {
         var admin_id = req.param("admin_id");
-        var client = 'dashboard';
+        var client = req.param("client") || 'dashboard';
         Admin.destroy({
             id: admin_id
         }).exec(function (err, users) {

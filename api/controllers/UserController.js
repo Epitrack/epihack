@@ -103,7 +103,7 @@ module.exports = {
      */
     delete: function (req, res) {
         var user_id = req.param("user_id");
-        var client = 'dashboard';
+        var client = req.param("client") || 'dashboard';
         User.destroy({
             id: user_id
         }).exec(function (err) {

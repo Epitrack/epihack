@@ -53,3 +53,12 @@ ol.vertical li.placeholder:before {
     position: absolute;
     /** Define arrowhead **/
 }
+.docs_endpoint_header span{
+    font-style: italic;
+}
+.docs_endpoint_header {
+    font-size:20px;
+    width: 100%;
+    background: #eeefff;
+    padding: 10px;
+}

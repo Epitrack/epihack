@@ -8,7 +8,7 @@
 module.exports = {
     attributes: {
         name: {type: 'string', required:true},
-        language:{type:'string', required:true, defaultsTo:'PT-br'},
+        locale:{type:'string', required:true, defaultsTo:'PT-br'},
         url: {type: 'string', unique:true},
         location: {type: 'string', required:true},
         default:{type:'boolean', defaultsTo:false},
@@ -19,7 +19,6 @@ module.exports = {
         toJSON: function () {
             var obj = this.toObject();
             delete obj.secret;
-            delete obj.id;
             delete obj.createdAt;
             delete obj.updatedAt;
             return obj;

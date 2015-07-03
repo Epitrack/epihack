@@ -24,7 +24,8 @@ module.exports.policies = {
         '*': ['flash', 'sessionAuth', 'hasValidAppToken', 'isAdmin']
     },
     AppController: {
-        '*': ['flash', 'sessionAuth', 'hasValidAppToken', 'isAdmin']
+        '*': ['flash', 'sessionAuth', 'hasValidAppToken', 'isAdmin'],
+        'read':['flash', 'hasValidAppToken']
     },
     DiseasesController: {
         '*': ['flash', 'sessionAuth', 'isAdmin'],

@@ -7,10 +7,10 @@
 
 module.exports = {
     attributes: {
-        user: {model: 'User'},
-        nick: {type: 'string'},
-        gender: {type: 'string'},
-        dob: {type: 'string'},
+        user: {model: 'User', required:true},
+        nick: {type: 'string', required:true},
+        gender: {type: 'string', required:true},
+        dob: {type: 'string', required:true},
         surveys: {
             collection: 'Survey',
             via: 'household'

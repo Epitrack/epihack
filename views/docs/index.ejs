@@ -6,7 +6,27 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <%- partial('docs_home.ejs')%>
+                        <h1>API DOCS</h1>
+                        <p>
+                            Welcome to the Docs.
+                            Here you will find details about how the Epihack Platform works.
+                        </p>
+                        <h3>Running the project</h3>
+                        <p>
+                            Here is the guide if you need to run the project localy:
+                        <ol>
+                            <li>Make sure you have nodejs and mongodb installed</li>
+                            <li>Clone the project in <a href="https://github.com/Epitrack/epihack.git">https://github.com/Epitrack/epihack.git</a></li>
+                            <li>Open a terminal window in the project folder and run <code>npm install</code>. This should install all dependencies.</li>
+                            <li>Start your mongodb instance. There's no need to create a new database.</li>
+                            <li>Finally, run <code>sails www&&sails lift --dev --verbose</code>. This will compile the frontend sources and lift the server.</li>
+                            <li>After the lift, the project should be available in <a href="http://localhost:1337/">http://localhost:1337/</a></li>
+                            <li>Keep in mind that if you change code in the 'api' folder, you need to stop the server and run <code>sails lift --dev --verbose</code> again.</li>
+                        </ol>
+                        </p>
+                        <h3>Pull requests</h3>
+                        <p>Feel free to submit pull requests with new features and quick fixes.</p>
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                     </div>
                 </div>
             </div>

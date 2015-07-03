@@ -51,6 +51,9 @@ module.exports.routes = {
      ***************************************************************************/
 
     'GET /logout': 'AuthController.logout',
+
+    'GET /admin/get': 'AdminController.read',
+    'GET /admin/get/:admin_id': 'AdminController.read',
     'GET /admin/login': 'AdminController.login',
     'GET /admin/list': 'AdminController.list',
     'GET /admin/edit/:admin_id': 'AdminController.edit',
@@ -66,7 +69,9 @@ module.exports.routes = {
 
     'POST /admin/login': 'AuthController.loginAdmin',
     'POST /admin/create': 'AdminController.create',
+    'POST /admin/update': 'AdminController.update',
     'POST /app/create': 'AppController.create',
+    'POST /app/update': 'AppController.update',
 
     'GET /app/default/:app_id': 'AppController.default',
     'GET /app/edit/:app_id': 'AppController.edit',
@@ -85,6 +90,7 @@ module.exports.routes = {
 
     'POST /symptoms/create': 'SymptomsController.create',
     'POST /symptoms/update': 'SymptomsController.update',
+
     'GET /symptoms/get': 'SymptomsController.read',
     'GET /symptom/:symptom_id': 'SymptomsController.read',
     'GET /symptoms': 'SymptomsController.list',
@@ -129,5 +135,14 @@ module.exports.routes = {
     'GET /translations/delete/:translation_id': 'TranslationsController.delete',
 
     'POST /translations/create': 'TranslationsController.create',
-    'POST /translations/update': 'TranslationsController.update'
+    'POST /translations/update': 'TranslationsController.update',
+
+    'GET /docs' : 'DocsController.index',
+    'GET /docs/config' : 'DocsController.config',
+    'GET /docs/admin' : 'DocsController.admin',
+    'GET /docs/user' : 'DocsController.user',
+    'GET /docs/diseases' : 'DocsController.diseases',
+    'GET /docs/surveys' : 'DocsController.surveys',
+    'GET /docs/map' : 'DocsController.map',
+    'GET /docs/other' : 'DocsController.other'
 };

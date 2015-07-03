@@ -31,7 +31,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/admin/config', {error:false, status:true, message:"App Created", app:b});
+                return res.clientAwareResponse(client, '/admin/apps', {error:false, status:true, message:"App Created", app:b});
             }
         });
     },
@@ -94,7 +94,7 @@ module.exports = {
                         message: 'There was an error processing your request: \n' + err
                     });
                 } else {
-                    return res.clientAwareResponse('dashboard', '/apps', {error:false, status:true, message:"Configuration Updated", app:c});
+                    return res.clientAwareResponse('dashboard', '/admin/apps', {error:false, status:true, message:"Configuration Updated", app:c});
                 }
             });
         });
@@ -128,7 +128,7 @@ module.exports = {
                     message: 'There was an error processing your request: \n' + err
                 });
             } else {
-                return res.clientAwareResponse(client, '/apps', {status:true, message:"Configuration Deleted"});
+                return res.clientAwareResponse(client, '/admin/apps', {status:true, message:"Configuration Deleted"});
             }
         });
     }

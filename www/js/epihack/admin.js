@@ -100,10 +100,10 @@ $(document).ready(function () {
 
     console.log("page is", page);
     if(page=='user_edit') {
-        console.log("dd");
+        /*console.log("dd");
         console.log("y", dob_year);
         console.log("m", dob_month);
-        console.log("p", page);
+        console.log("p", page);*/
         $('#user_dob_month').val(dob_month);
         $('#user_dob_year').val(dob_year);
     }

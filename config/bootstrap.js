@@ -70,7 +70,7 @@ module.exports.bootstrap = function(cb) {
             console.log("adding boostrap app");
             App.create({
                 name:'Epihack',
-                language:'en-US',
+                locale:'en-US',
                 url:'http://epihack.me',
                 location:'Brazil',
                 latitude:-15.171681611519844,
