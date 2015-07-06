@@ -1,4 +1,5 @@
 var flash500 = require('../services/flash500');
+var surveyGenerator = require('../services/surveyGenerator');
 /**
  * SurveyController
  *
@@ -141,12 +142,48 @@ module.exports = {
         });
     },
     /**
-     * `SurveyController.index()`
+     * `SurveyController.batch()`
      */
-    index: function (req, res) {
-        return res.json({
-            todo: 'index() is not implemented yet!'
-        });
+    batch: function (req, res) {
+        var appToken = req.body.app_token;
+        var diseaseCode = req.body.disease_code;
+        var numSurveys = req.body.batch_ammount;
+        var minDate = req.body.min_date;
+        var maxDate = req.body.max_date;
+        var client = req.body.client || 'api';
+        var redirectTo = req.body.redirect_to || '/';
+        var currentSurvey = 0;
+        function single_callback(err){
+            currentSurvey++;
+            surveyCallback();
+        }
+        function surveyCallback(){
+            if(currentSurvey >= numSurveys){
+                return res.clientAwareResponse(client, redirectTo, {
+                    error: false,
+                    status: true,
+                    message: "Batch Surveys Created"
+                });
+            }
+        }
+        for(var i = 0;i<numSurveys;i++){
+            surveyGenerator(req, res, diseaseCode, minDate, maxDate, appToken, function(err, result){
+                if (err) {
+                    var error = {
+                        error: true,
+                        title: 'Validation Error',
+                        message: 'There was an error processing your request: \n' + err
+                    };
+                    if (err.code == 'E_VALIDATION') {
+                        return res.clientAwareResponse(client, redirectTo, error);
+                    } else {
+                        return flash500(req, res, error);
+                    }
+                } else {
+                    single_callback();
+                }
+            });
+        }
     }
 };
 

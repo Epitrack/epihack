@@ -127,6 +127,7 @@ module.exports.routes = {
     'GET /household/edit/:household_id': 'HouseholdController.edit',
 
     'POST /survey/create': 'SurveyController.create',
+    'POST /survey/batch': 'SurveyController.batch',
 
     'GET /survey/get/:survey_id': 'SurveyController.read',
     'GET /surveys/s': 'SurveyController.getBySymptom',
