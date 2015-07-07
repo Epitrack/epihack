@@ -30,7 +30,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "npm install&&node app.js --prod"
+    "start": "node app.js --prod"
   },
   "main": "app.js",
   "repository": {

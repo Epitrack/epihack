@@ -129,6 +129,7 @@ module.exports.routes = {
     'POST /survey/create': 'SurveyController.create',
     'POST /survey/batch': 'SurveyController.batch',
 
+    'GET /surveys/get': 'SurveyController.read',
     'GET /survey/get/:survey_id': 'SurveyController.read',
     'GET /surveys/s': 'SurveyController.getBySymptom',
     'GET /surveys/d': 'SurveyController.getByDisease',

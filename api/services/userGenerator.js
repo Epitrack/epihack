@@ -15,6 +15,6 @@ module.exports = function(appToken, cb){
     };
     console.log("generating user", user);
     User.create(user).exec(function(err, newUser){
-       cb(err, newUser);
+        cb(err, newUser);
     });
 };
