@@ -67,6 +67,8 @@ module.exports = {
             params = {user: req.param('user_id')};
         } else if (req.param('survey_id') != null) {
             params = {id: req.param('survey_id')};
+        } else if(req.param('app') != null) {
+            params = {id: req.param('survey_id')};
         }
         Survey.find(params).exec(function (err, survey) {
             if (err) return flash500(req, res, {
