@@ -27,7 +27,7 @@
                             <tr class="filters">
                                 <th><input type="text"
                                            class="form-control"
-                                           placeholder="#"
+                                           placeholder="token"
                                            disabled></th>
                                 <th><input type="text"
                                            class="form-control"
@@ -54,7 +54,7 @@
                             <tbody>
                             <% for(var i = 0; i < configs.length; i++) { %>
                             <tr>
-                                <td><%= configs[i].id %></td>
+                                <td><%= configs[i].token %></td>
                                 <td><%= configs[i].name %></td>
                                 <td><a href="<%= configs[i].url %>"><%= configs[i].url %></a></td>
                                 <td><%= configs[i].location %></td>
@@ -212,6 +212,28 @@
                                             style="margin-top: 30px"
                                             id="generate_secret_hash"
                                             class="btn btn-info btn-sm btn-block">Generate Hash</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ill_date">Start date</label>
+                                        <input type="text"
+                                               name="start_date"
+                                               class="form-control"
+                                               id="ill_date"
+                                               placeholder="When does the event start?">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="ill_date">End date</label>
+                                        <input type="text"
+                                               name="start_date"
+                                               class="form-control"
+                                               id="ill_date"
+                                               placeholder="When does the event end?">
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

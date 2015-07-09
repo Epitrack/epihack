@@ -17,8 +17,8 @@ module.exports = function (req, res, next) {
             return flash403(req, res, {error: true, message: 'Not Authorized : isAdmin'});
         }
     } else {
-        if (req.header('admin_token') != null) {
-            var token = req.header('admin_token');
+        if (req.header['admin_token'] != null) {
+            var token = req.header['admin_token'];
             findAdminByToken(token, function (result) {
                 if (result) {
                     return next();

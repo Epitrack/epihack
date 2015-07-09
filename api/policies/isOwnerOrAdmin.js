@@ -23,8 +23,8 @@ module.exports = function (req, res, next) {
             }
         }
     } else {
-        if (req.header('admin_token') != null) {
-            var token = req.header('admin_token');
+        if (req.headers['admin_token'] != null) {
+            var token = req.headers['admin_token'];
             findAdminByToken(token, function (result) {
                 if (result) {
                     return next();
@@ -35,8 +35,8 @@ module.exports = function (req, res, next) {
                     });
                 }
             });
-        } else if (req.header('user_token') != null) {
-            var user_token = req.header('user_token');
+        } else if (req.headers['user_token'] != null) {
+            var user_token = req.headers['user_token'];
             findUserByToken(user_token, function (result) {
                 if (result) {
                     if (idTOCompare == result.id) {
@@ -55,7 +55,7 @@ module.exports = function (req, res, next) {
                 }
             });
         } else {
-            return flash403(req, res, {error: true, message: 'Invalid user_token: ' + token + ' : isOwnerOrAdmin 3'});
+            return flash403(req, res, {error: true, message: 'Invalid token : isOwnerOrAdmin 3'});
         }
     }
 };

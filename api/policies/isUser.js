@@ -17,8 +17,8 @@ module.exports = function (req, res, next) {
             return flash403(req, res, {error: true, message: 'Not Authorized : isUser', title: 'Error 403: '});
         }
     } else {
-        if (req.header('user_token') != null) {
-            var token = req.header('user_token');
+        if (req.header['user_token'] != null) {
+            var token = req.header['user_token'];
             findUserByToken(token, function (result) {
                 if (result) {
                     return next();

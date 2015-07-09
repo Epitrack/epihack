@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
         return next();
     } else {
         var client = req.param('client') || 'api';
-        var app_token = req.param('app_token') || req.headers.app_token;
+        var app_token = req.param('app_token') || req.headers['app_token'];
         console.log("app_token", app_token, req.headers.app_token, client);
         if (app_token != null) {
             App.findOne({token: app_token}, function (err, app) {

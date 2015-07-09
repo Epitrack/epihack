@@ -63,6 +63,11 @@ module.exports.policies = {
         '*': ['flash', 'sessionAuth', 'isAdmin'],
         'read': ['flash', 'hasValidAppToken'],
         'list': ['flash', 'hasValidAppToken']
+    },
+    ContentController:{
+        '*': ['flash', 'sessionAuth', 'isAdmin'],
+        'read': ['flash', 'hasValidAppToken'],
+        'places': ['flash', 'hasValidAppToken']
     }
 /***************************************************************************
  *                                                                       *

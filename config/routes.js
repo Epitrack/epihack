@@ -66,6 +66,7 @@ module.exports.routes = {
     'GET /admin/diseases': 'DiseasesController.index',
     'GET /admin/surveys': 'SurveyController.index',
     'GET /admin/translations': 'TranslationsController.index',
+    'GET /admin/content': 'ContentController.index',
 
     'POST /admin/login': 'AuthController.loginAdmin',
     'POST /admin/create': 'AdminController.create',
@@ -149,5 +150,11 @@ module.exports.routes = {
     'GET /docs/diseases' : 'DocsController.diseases',
     'GET /docs/surveys' : 'DocsController.surveys',
     'GET /docs/map' : 'DocsController.map',
-    'GET /docs/other' : 'DocsController.other'
+    'GET /docs/other' : 'DocsController.other',
+
+    'GET /content/places' : 'ContentController.places',
+    'GET /content/edit/:id': 'ContentController.edit',
+    'GET /content/delete/:id': 'ContentController.delete',
+    'POST /content/create': 'ContentController.create',
+    'POST /content/update': 'ContentController.update'
 };

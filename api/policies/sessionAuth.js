@@ -16,9 +16,9 @@ module.exports = function (req, res, next) {
     if (req.session.authenticated) {
         return next();
     } else {
-        if (req.header('user_token') != null || req.header('admin_token') != null) {
-            var user_token = req.header('user_token') || req.header('admin_token');
-            if(user_token == req.header('user_token')) {
+        if (req.header['user_token'] != null || req.header['admin_token'] != null) {
+            var user_token = req.header['user_token'] || req.header['admin_token'];
+            if(user_token == req.header['user_token']) {
                 findUserByToken(user_token, function (result) {
                     if (result) {
                         console.log('findUserByToken', result);
