@@ -152,7 +152,9 @@ module.exports.routes = {
     'GET /docs/map' : 'DocsController.map',
     'GET /docs/other' : 'DocsController.other',
 
+    'GET /content/get' : 'ContentController.read',
     'GET /content/places' : 'ContentController.places',
+    'GET /content/app/:app_token' : 'ContentController.getContentByApp',
     'GET /content/edit/:id': 'ContentController.edit',
     'GET /content/delete/:id': 'ContentController.delete',
     'POST /content/create': 'ContentController.create',

@@ -14,21 +14,52 @@ module.exports = {
         var client = req.body.client || 'api';
         delete req.body.client;
         var content = req.body;
-        Content.create(content).exec(function createCB(err, b) {
-            if (err) {
-                return flash500(req, res, {
-                    error: true,
-                    message: 'There was an error processing your request: \n' + err
-                });
-            } else {
-                return res.clientAwareResponse(client, '/admin/content', {
-                    error: false,
-                    status: true,
-                    message: "Content Created",
-                    translation: b
-                });
-            }
-        });
+        var c;
+        console.log("content", content);
+        switch (content.type) {
+            case 'list':
+
+                break;
+            case 'map':
+
+                break;
+            case 'detail':
+                c = {
+                    app:content.app_token,
+                    title: content.title,
+                    type: content.type,
+                    body: content.body
+                };
+                if (content.body_latitude != '' && content.body_longitude != '') {
+                    c.location = [content.body_latitude, content.body_longitude];
+                }
+                if(content.phone != null && content.phone != '') {
+                    c.phone = content.phone;
+                }
+                break;
+        }
+        if (c != null) {
+            Content.create(c).exec(function createCB(err, b) {
+                if (err) {
+                    return flash500(req, res, {
+                        error: true,
+                        message: 'There was an error processing your request: \n' + err
+                    });
+                } else {
+                    return res.clientAwareResponse(client, '/admin/content', {
+                        error: false,
+                        status: true,
+                        message: "Content Created",
+                        translation: b
+                    });
+                }
+            });
+        } else {
+            return res.clientAwareResponse(client, '/admin/content', {
+                error: true,
+                message: 'Missformated params.'
+            })
+        }
     },
     /**
      * `ContentController.read()`
@@ -50,6 +81,30 @@ module.exports = {
             return res.json({error: false, data: content});
         });
     },
+    getContentByApp: function (req, res) {
+        var params = {};
+        if (req.param('type') == null) {
+            params = {app: req.param('app_token')};
+        } else {
+            params = {app: req.param('app_token'), type: req.param('type')};
+        }
+        App.find({app_token:req.param('app_token')}).exec(function(err, app){
+            if (err) return flash500(req, res, {
+                error: true,
+                message: 'There was an error processing your request: \n' + err
+            });
+            Content.find(params).exec(function (err, content) {
+                if (err) return flash500(req, res, {
+                    error: true,
+                    message: 'There was an error processing your request: \n' + err
+                });
+                return res.json({error:
+                    false,
+                    pages: content,
+                    app:app});
+            });
+        });
+    },
     /**
      * `ContentController.update()`
      */
@@ -65,7 +120,7 @@ module.exports = {
                 message: 'There was an error processing your request: \n' + err
             });
             return res.clientAwareResponse(client, '/admin/content',
-                {error:false, status:true, message:"Content Updated", content:upc});
+                {error: false, status: true, message: "Content Updated", content: upc});
         });
     },
     /**
@@ -84,7 +139,7 @@ module.exports = {
                 });
             }
             else {
-                return res.clientAwareResponse(client, '/admin/content', {status:true, message:"Content Deleted"});
+                return res.clientAwareResponse(client, '/admin/content', {status: true, message: "Content Deleted"});
             }
         });
     },
@@ -104,7 +159,7 @@ module.exports = {
                 return res.view('content/content_index.ejs', {
                     contents: contents,
                     error: false,
-                    apps:apps,
+                    apps: apps,
                     page: "content_index"
                 });
             });
@@ -123,16 +178,16 @@ module.exports = {
             return res.view('content/content_edit', {
                 content: content,
                 error: false,
-                page:'content_edit'
+                page: 'content_edit'
             });
         });
     },
-    places:function(req, res){
+    places: function (req, res) {
         var lat = req.param('lat');
         var lon = req.param('lon');
         var radius = req.param('radius');
         var types = req.param('types');
-        Content.queryPlaces(lat, lon, radius, types, function(result){
+        Content.queryPlaces(lat, lon, radius, types, function (result) {
             return res.json(result);
         });
     }

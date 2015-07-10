@@ -84,8 +84,8 @@ $(document).ready(function () {
                 longitude:-51.92528
             },
             inputBinding: {
-                latitudeInput: $('#app_latitude'),
-                longitudeInput: $('#app_longitude'),
+                latitudeInput: $('.content_edit').not('.hidden').find('.lat'),
+                longitudeInput: $('.content_edit').not('.hidden').find('.lon'),
                 locationNameInput: $('#app_location')
             }
         });

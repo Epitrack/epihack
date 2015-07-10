@@ -29,11 +29,11 @@
                                                disabled></th>
                                     <th><input type="text"
                                                class="form-control"
-                                               placeholder="Type"
+                                               placeholder="Title"
                                                disabled></th>
                                     <th><input type="text"
                                                class="form-control"
-                                               placeholder="Title"
+                                               placeholder="Type"
                                                disabled></th>
                                     <th><input type="text"
                                                class="form-control"
@@ -77,13 +77,30 @@
                             <h1 class="panel-title">Add Content</h1>
                         </div>
                         <div class="panel-body">
-                            <form action="/contents/create"
+                            <form action="/content/create"
                                   method="post">
                                 <input type="hidden"
                                        name="client"
                                        value="dashboard">
 
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="app_list">App Token</label>
+                                            <select name="app_token"
+                                                    id="app_list"
+                                                    class="form-control dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"><span class="caret"></span>
+                                                <% for (var i = 0;i < apps.length;i++){ %>
+                                                <option value="<%= apps[i].token %>"><%= apps[i].name %></option>
+                                                <% } %>
+                                            </select>
+
+                                            <p class="help-block">Select the app for this page</p>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="content_title">Title</label>
@@ -113,31 +130,14 @@
                                             <p class="help-block">Select the type of content of the page</p>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="app_list">App Token</label>
-                                            <select name="app_token"
-                                                    id="app_list"
-                                                    class="form-control dropdown-toggle"
-                                                    data-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false"><span class="caret"></span>
-                                                <% for (var i = 0;i < apps.length;i++){ %>
-                                                <option value="<%= apps[i].token %>"><%= apps[i].name %></option>
-                                                <% } %>
-                                            </select>
-
-                                            <p class="help-block">Select the app for this page</p>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="row hidden"
+                                <div class="row hidden content_edit"
                                      style="padding:20px"
                                      id="content_list">
                                     <hr/>
                                     <h4>Select list items</h4>
                                 </div>
-                                <div class="row hidden"
+                                <div class="row hidden content_edit"
                                      style="padding:20px"
                                      id="content_detail">
                                     <hr/>
@@ -148,6 +148,17 @@
                                             <label for="content_body">Content_body</label>
                                             <textarea class="form-control" name="body" id="content_body"></textarea>
                                             <span class="help-block">Accepts HTML</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="content_img">Image URL</label>
+                                            <input type="tel"
+                                                   name="image"
+                                                   class="form-control"
+                                                   id="content_img"
+                                                   placeholder="An image for this page">
                                         </div>
                                     </div>
 
@@ -169,8 +180,8 @@
                                             <div class="form-group">
                                                 <label for="app_latitude">Latitude</label>
                                                 <input type="tel"
-                                                       name="latitude"
-                                                       class="form-control"
+                                                       name="body_latitude"
+                                                       class="form-control lat"
                                                        id="app_latitude"
                                                        placeholder="">
                                             </div>
@@ -179,8 +190,8 @@
                                             <div class="form-group">
                                                 <label for="app_longitude">Longitude</label>
                                                 <input type="tel"
-                                                       name="longitude"
-                                                       class="form-control"
+                                                       name="body_longitude"
+                                                       class="form-control lon"
                                                        id="app_longitude"
                                                        placeholder="">
                                             </div>
@@ -195,7 +206,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row hidden"
+                                <div class="row hidden content_edit"
                                      style="padding:20px"
                                      id="content_map">
                                     <hr/>
@@ -206,7 +217,7 @@
                                                 <label for="app_latitude">Latitude</label>
                                                 <input type="tel"
                                                        name="latitude"
-                                                       class="form-control"
+                                                       class="form-control lat"
                                                        id="app_latitude"
                                                        placeholder="Latitude to search places">
                                             </div>
@@ -216,7 +227,7 @@
                                                 <label for="app_longitude">Longitude</label>
                                                 <input type="tel"
                                                        name="longitude"
-                                                       class="form-control"
+                                                       class="form-control lon"
                                                        id="app_longitude"
                                                        placeholder="Longitude to search places">
                                             </div>
@@ -283,6 +294,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var current_content;
+        var current_token = $('#app_list').val();
         var si=0;
         $('#content_type').prop('disabled', false);
         $('#content_type').change(function (e) {
@@ -299,6 +311,9 @@
                 });
                 si = 1;
             }
+        });
+        $('#app_list').change(function (e) {
+            current_token = $('#app_list').val();
         });
     });
 </script>
