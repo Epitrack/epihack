@@ -84,12 +84,30 @@ $(document).ready(function () {
                 longitude:-51.92528
             },
             inputBinding: {
-                latitudeInput: $('.content_edit').not('.hidden').find('.lat'),
-                longitudeInput: $('.content_edit').not('.hidden').find('.lon'),
+                latitudeInput: $('#app_latitude'),
+                longitudeInput: $('#app_longitude'),
+
+
                 locationNameInput: $('#app_location')
             }
         });
         $('#map_container').locationpicker('autosize');
+    });
+
+    $('#pickerModal2').on('shown.bs.modal', function (e) {
+        $('#map_container2').locationpicker({
+            zoom: 2,
+            location:{
+                latitude:-14.235004,
+                longitude:-51.92528
+            },
+            inputBinding: {
+                latitudeInput: $('#body_latitude'),
+                longitudeInput: $('#body_longitude'),
+                locationNameInput: $('#app_location')
+            }
+        });
+        $('#map_container2').locationpicker('autosize');
     });
 
     var myDate = new Date();

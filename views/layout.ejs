@@ -38,7 +38,8 @@
     <link rel="stylesheet" href="styles/simple-sidebar.css">
     <link rel="stylesheet" href="styles/styles.css">
     <!--STYLES END-->
-  </head>
+    <link rel="stylesheet" href="http://seiyria.com/bootstrap-slider/stylesheets/bootstrap-slider.css">
+</head>
 
   <body>
    <%- partial('navbar.ejs') %>
@@ -107,6 +108,7 @@
          <script src="js/dependencies/locationpicker.jquery.min.js"></script>
          <script src="js/epihack/admin.js"></script>
          <!--SCRIPTS END-->
+   <script src="http://seiyria.com/bootstrap-slider/javascripts/bootstrap-slider.js"></script>
    <script>
        $("#menu-toggle").click(function (e) {
            e.preventDefault();
@@ -115,7 +117,7 @@
        var page = '<%=typeof page == 'undefined' ? 'unknown' : page%>';
    </script>
    <div class="modal fade"
-        id="pickerModal">
+                              id="pickerModal">
        <div class="modal-dialog">
            <div class="modal-content">
                <div class="modal-header">
@@ -127,6 +129,30 @@
                </div>
                <div class="modal-body">
                    <div id="map_container"
+                        style="width: 560px; height: 400px;"></div>
+               </div>
+               <div class="modal-footer">
+                   <button type="button"
+                           class="btn btn-success"
+                           data-dismiss="modal"
+                           aria-label="Close">Ok</button>
+               </div>
+           </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+   <div class="modal fade"
+        id="pickerModal2">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button"
+                           class="close"
+                           data-dismiss="modal"
+                           aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title">Pick a location</h4>
+               </div>
+               <div class="modal-body">
+                   <div id="map_container2"
                         style="width: 560px; height: 400px;"></div>
                </div>
                <div class="modal-footer">
